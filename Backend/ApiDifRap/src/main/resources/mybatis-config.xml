@@ -23,9 +23,9 @@
         <setting name="jdbcTypeForNull" value="NULL" />
     </settings>
     <typeAliases>    
-        <package name="com.paygroup.modulocarga.apirest.dto"/>        
+        <package name="cl.difrap.apirest.dto"/>        
     </typeAliases>
     <mappers>
-    	<!-- <mapper resource="mapper/FormatoArchivoMapper.xml"/> -->
+    	<mapper resource="mapper/AlbumMapper.xml"/>
     </mappers>
 </configuration>

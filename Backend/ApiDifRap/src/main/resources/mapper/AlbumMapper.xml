@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="cl.difrap.apirest.mapper.Album">
+
+	<resultMap id="Album" type="Album">
+		<result column="id_album" property="idIncremental" javaType="Long"/>
+		<result column="album" property="album" javaType="String"/>
+		<result column="artista" property="artista" javaType="String"/>	
+		<result column="anho" property="anho" javaType="Long"/>	
+		<result column="link" property="link" javaType="String"/>	
+		<result column="youtube" property="youtube" javaType="String"/>	
+	</resultMap>
+
+	<insert id="insertAlbum" parameterType="Album" useGeneratedKeys="true" keyProperty="idIncremental" keyColumn="id_album">
+	    insert into albumes 
+	    (
+	    album,
+	    artista,
+	    anho,
+	    link,
+	    youtube
+	    )
+	    VALUES
+	    (
+	    #{album},
+	    #{artista},
+	    #{anho},
+	    #{link},
+	    #{youtube}
+	    )
+	</insert>
+	
+	<update id="updateAlbum" parameterType="Album">
+    	update albumes
+    	set
+    	album = #{album},
+	    artista =  #{artista},
+	    anho =  #{anho},
+	    link = #{link},
+	    youtube = #{youtube}
+    	where
+    	id_album = #{idIncremental}
+	</update>
+	
+	<delete id="deleteAlbum" parameterType="Album">
+		delete from albumes where id_album = #{idIncremental}
+	</delete>
+	
+    <select id="selectAlbum" resultMap="Album">  
+    	SELECT  * FROM albumes 
+		    <where>
+		      	<if test = "album != null ">
+		        	and album like '%'||#{album}||'%'
+		      	</if> 
+		      	<if test = "artista != null ">
+		        	and artista '%'||#{artista}||'%'
+		      	</if> 
+		      	<if test = "link != null ">
+		        	and link like '%'||#{link}||'%'
+		      	</if> 
+		      	<if test = "youtube != null ">
+		        	and youtube like '%'||#{youtube}||'%'
+		      	</if> 
+		      	<if test = "anho != null ">
+		        	and anho = #{anho}
+		      	</if>
+	  		</where>	
+	  	ORDER BY id_album 
+		<if test = "paginacion != null ">
+			LIMIT #{paginacion.desplazar}, #{paginacion.numreg}
+		</if>
+		
+    </select>
+    
+    <select id="getAlbum" resultMap="Album">  
+		select * from albumes where id_album = #{idIncremental}
+    </select>
+    
+</mapper>

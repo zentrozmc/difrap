@@ -28,12 +28,13 @@ public abstract class Controlador<C extends DAO<P>, P extends Entidad>
 		if(pagina>0)
 		{
 			int desplazar = (pagina-1)*numreg+1;
+			desplazar--;
 			int limite = pagina * numreg;
 			log.info("Paginar desde el registro ["+ desplazar + "] hasta ["+limite+"]");
-			paginacion = new Paginacion(desplazar,limite);
+			paginacion = new Paginacion(desplazar,limite,numreg);
 		}
 		else
-			paginacion = new Paginacion();
+			paginacion = null;
 		entidad.setPaginacion(paginacion);
 		List<P> listaE = (List<P>) dao.listar(entidad);
 		if(listaE != null)
