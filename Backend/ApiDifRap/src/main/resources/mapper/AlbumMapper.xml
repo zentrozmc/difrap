@@ -54,16 +54,16 @@
     	SELECT  * FROM albumes 
 		    <where>
 		      	<if test = "album != null ">
-		        	and album like '%'||#{album}||'%'
+		        	and album like CONCAT('%',#{album},'%')
 		      	</if> 
 		      	<if test = "artista != null ">
-		        	and artista '%'||#{artista}||'%'
+		        	and artista like CONCAT('%',#{artista},'%')
 		      	</if> 
 		      	<if test = "link != null ">
-		        	and link like '%'||#{link}||'%'
+		        	and link like CONCAT('%',#{link},'%')
 		      	</if> 
 		      	<if test = "youtube != null ">
-		        	and youtube like '%'||#{youtube}||'%'
+		        	and youtube like CONCAT('%',#{youtube},'%')
 		      	</if> 
 		      	<if test = "anho != null ">
 		        	and anho = #{anho}
@@ -78,6 +78,27 @@
     
     <select id="getAlbum" resultMap="Album">  
 		select * from albumes where id_album = #{idIncremental}
+    </select>
+    
+    <select id="totAlbum" resultType="java.lang.Long">
+    	SELECT COUNT(1) as cantidad FROM albumes
+    	<where>
+	      	<if test = "album != null ">
+	        	and album like CONCAT('%',#{album},'%')
+	      	</if> 
+	      	<if test = "artista != null ">
+	        	and artista like CONCAT('%',#{artista},'%')
+	      	</if> 
+	      	<if test = "link != null ">
+	        	and link like CONCAT('%',#{link},'%')
+	      	</if> 
+	      	<if test = "youtube != null ">
+	        	and youtube like CONCAT('%',#{youtube},'%')
+	      	</if> 
+	      	<if test = "anho != null ">
+	        	and anho = #{anho}
+	      	</if>
+  		</where>	
     </select>
     
 </mapper>

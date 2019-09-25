@@ -22,8 +22,9 @@ public abstract class Controlador<C extends DAO<P>, P extends Entidad>
 	protected C dao;
 
 	@RequestMapping(value="", method=RequestMethod.GET)
-	public ResponseEntity<List<P>> listar(@RequestParam(required = false, defaultValue = "1") int pagina,@RequestParam(required = false, defaultValue = "25") int numreg,P entidad) 
+	public ResponseEntity<RespuestaPaginada> listar(@RequestParam(required = false, defaultValue = "1") int pagina,@RequestParam(required = false, defaultValue = "25") int numreg,P entidad) 
 	{
+		
 		Paginacion paginacion = null;
 		if(pagina>0)
 		{
@@ -31,16 +32,20 @@ public abstract class Controlador<C extends DAO<P>, P extends Entidad>
 			desplazar--;
 			int limite = pagina * numreg;
 			log.info("Paginar desde el registro ["+ desplazar + "] hasta ["+limite+"]");
-			paginacion = new Paginacion(desplazar,limite,numreg);
+			long cantidadRegistros = dao.cantidadRegistros(entidad);
+			paginacion = new Paginacion(desplazar,limite,numreg,cantidadRegistros);
 		}
 		else
 			paginacion = null;
 		entidad.setPaginacion(paginacion);
 		List<P> listaE = (List<P>) dao.listar(entidad);
+		RespuestaPaginada respuesta = new RespuestaPaginada();
+		respuesta.setEntidad(listaE);
+		respuesta.setPaginacion(paginacion);
 		if(listaE != null)
-			return new ResponseEntity<>(listaE,HttpStatus.OK);
+			return new ResponseEntity<>(respuesta,HttpStatus.OK);
 		else
-			return new ResponseEntity<>(listaE,HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(respuesta,HttpStatus.NOT_FOUND);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)

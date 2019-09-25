@@ -58,6 +58,13 @@ public abstract class DAO<C extends Entidad>
 			LOGGER.debug("Eliminando [" + this.obtieneClaseEntidad().getSimpleName() + "]");
 		return this.sqlSession.delete("delete" + this.obtieneClaseEntidad().getSimpleName(), entidad);
 	}
+	
+	public long cantidadRegistros(C entidad) 
+	{
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Contando [" + this.obtieneClaseEntidad().getSimpleName() + "]");
+		return this.sqlSession.selectOne("tot"+this.obtieneClaseEntidad().getSimpleName(),entidad);
+	}
 
 	@SuppressWarnings("unchecked")
 	protected final Class<C> obtieneClaseEntidad()

@@ -21,6 +21,7 @@
 <configuration>
 	<settings>
         <setting name="jdbcTypeForNull" value="NULL" />
+        <setting name="logImpl" value="LOG4J"/>
     </settings>
     <typeAliases>    
         <package name="cl.difrap.apirest.dto"/>        
