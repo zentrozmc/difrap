@@ -1,0 +1,92 @@
+
+<title>Albumes</title>
+<div class="container">
+	<div class="panel-body">
+		<form (ngSubmit)="onSubmit()">  
+			<div class="row">
+				<div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
+					<label>Nombre</label>
+					<input type="text" class="form-control" #nombre id="nombre" name="nombre"  [(ngModel)]="album.album"/>
+				</div>  
+				<div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
+					<label>Artista</label>
+					<input type="text" class="form-control" #artista id="artista" name="artista" [(ngModel)]="album.artista"/>
+				</div>  
+				<div class="form-group col-lg-3 col-md-4 col-sm-6 col-xs-12">
+					<label>Año</label>
+					<input type="Number" class="form-control" #anho id="anho" name="anho" [(ngModel)]="album.anho"/>
+				</div> 
+			</div>   
+			<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 actions-container">
+				<input type="button" value="Limpiar filtros" class="btn btn-secondary" (click)="limpiarFiltros()" />
+				<input type="submit" value="Buscar" class="btn btn-primary" />
+			</div>
+
+		</form>
+
+		<div class="table-responsive"> 
+			<div class="table-container" >
+				<table class="table table-striped" >
+					<thead class="thead-dark">
+						<tr>
+							<th>Id</th>
+							<th>Nombre</th>
+							<th>Artista</th>
+							<th>Año</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngIf="!listaAlbumes || listaAlbumes.length==0; else condatos">
+							<td colspan="8">
+								<p>No existen registros que mostrar.</p>
+							</td>
+						</tr>
+						<ng-template #condatos>
+							<tr *ngFor="let alb of listaAlbumes">
+								<td>{{alb.idIncremental}}</td>
+								<td><a [routerLink]="[alb.idIncremental]">{{alb.album}}</a></td>
+								<td>{{alb.artista}}</td>
+								<td>{{alb.anho}}</td>
+							</tr>
+						</ng-template>
+					</tbody>
+					<tfoot *ngIf="listaAlbumes.length>0">
+						<tr>
+							<td colspan="5">
+								<nav aria-label="Page navigation example">
+									<ul class="pagination">
+										<li class="page-item" *ngIf="pagina!=1">
+											<a class="page-link" href="javascript:void(0);" (click)="paginar((pagina-1))" aria-label="Previous">
+												<span aria-hidden="true">&laquo;</span>
+												<span class="sr-only">Anterior</span>
+											</a>
+                                        </li>
+                                        <ng-container *ngFor="let pag of totalPaginas; let i = index">
+                                            <li class="page-item active" *ngIf="pagina==(i+1)">
+                                                <a class="page-link" href="javascript:void(0);" (click)="paginar((i+1))">{{(i+1)}}</a>
+                                            </li>
+                                            <li class="page-item" *ngIf="pagina!=(i+1)">
+                                                <a class="page-link" href="javascript:void(0);" (click)="paginar((i+1))">{{(i+1)}}</a>
+                                            </li>
+                                        </ng-container>
+										
+										<li class="page-item" *ngIf="totalPaginas.length != pagina">
+											<a class="page-link" href="javascript:void(0);" (click)="paginar((pagina+1))" aria-label="Next">
+												<span aria-hidden="true">&raquo;</span>
+												<span class="sr-only">Siguiente</span>
+											</a>
+										</li>
+									</ul>
+								</nav>
+							</td>
+						</tr>
+					</tfoot>
+
+				</table>
+			</div>
+			<!--div class="col-sm-12 actions-container">
+				<input type="button" value="Agregar Convenio" class="btn btn-primary" /> 
+			</div-->
+		</div>  
+	</div>
+</div>

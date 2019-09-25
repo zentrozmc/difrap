@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  apiDifRap: "/apiDifRap/",
+  regXpag:25
 };
