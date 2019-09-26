@@ -44,7 +44,7 @@
 						<ng-template #condatos>
 							<tr *ngFor="let alb of listaAlbumes">
 								<td>{{alb.idIncremental}}</td>
-								<td><a [routerLink]="[alb.idIncremental]">{{alb.album}}</a></td>
+								<td><a [routerLink]="[alb.idIncremental]" [queryParams]="{'album':album.album,'artista':album.artista,'anho':album.anho,'pagina':pagina}" >{{alb.album}}</a></td>
 								<td>{{alb.artista}}</td>
 								<td>{{alb.anho}}</td>
 							</tr>

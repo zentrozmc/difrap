@@ -13,6 +13,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class VerAlbumComponent implements OnInit {
 
+  public filtro:any;
   public album:Album;
   constructor(
     private _router: Router,
@@ -51,6 +52,12 @@ export class VerAlbumComponent implements OnInit {
             console.log(error);
           }
         )
+      });
+
+      this._route.queryParams
+      .subscribe(params => 
+      {
+        this.filtro = params;
       });
   }
 

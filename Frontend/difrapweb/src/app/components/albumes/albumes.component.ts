@@ -4,6 +4,7 @@ import { AlbumService } from 'src/app/services/album.service';
 import { environment } from 'src/environments/environment';
 import { TouchSequence } from 'selenium-webdriver';
 import { Paginacion } from 'src/app/models/paginacion';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-albumes',
@@ -20,7 +21,8 @@ export class AlbumesComponent implements OnInit {
   public listaAlbumes:Array<Album>;
   public pagina:number;
 
-  constructor( private _albumService:AlbumService) {
+  constructor( private _albumService:AlbumService,
+    private _route:ActivatedRoute) {
     this.album = new Album(null,null,null,null,null,null);
     this.cantidadRegistros = null;
     this.listaAlbumes= [];
@@ -29,6 +31,18 @@ export class AlbumesComponent implements OnInit {
    }
 
   ngOnInit() {
+    this._route.queryParams
+      .subscribe(params => 
+      {
+        if(params.pagina)
+        {
+          this.album.album = params.album;
+          this.album.artista = params.artista;
+          this.album.anho = params.anho;
+          this.pagina = params.pagina;
+          this.listarAlbumes(this.album);
+        }
+      });
   }
 
   limpiarFiltros(){
