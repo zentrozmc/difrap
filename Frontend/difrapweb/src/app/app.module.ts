@@ -7,12 +7,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AlbumesComponent } from './components/albumes/albumes.component';
 import { VerAlbumComponent } from './components/ver-album/ver-album.component';
+import { EnviarDiscoComponent } from './components/enviar-disco/enviar-disco.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlbumesComponent,
-    VerAlbumComponent
+    VerAlbumComponent,
+    EnviarDiscoComponent
   ],
   imports: [
     BrowserModule,
