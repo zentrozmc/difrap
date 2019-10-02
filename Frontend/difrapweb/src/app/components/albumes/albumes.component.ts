@@ -40,8 +40,9 @@ export class AlbumesComponent implements OnInit {
           this.album.artista = params.artista;
           this.album.anho = params.anho;
           this.pagina = params.pagina;
-          this.listarAlbumes(this.album);
+          this.albumtmp = this.album;
         }
+        this.listarAlbumes(this.album);
       });
   }
 
