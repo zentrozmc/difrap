@@ -3,6 +3,7 @@
 	<groupId>cl.difrap.productos</groupId>
 	<artifactId>tiendaARK</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>tiendaARK</name>
 	<description>Tienda para el juego ARK: Survival Evolve</description>
 	
