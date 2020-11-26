@@ -12,5 +12,10 @@ public class AnuncioDao extends DAO<Anuncio>{
 		super(sqlSession);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public int activarAnuncio(Anuncio a) 
+	{
+		return this.sqlSession.update("activarAnuncio",a);
+	}
 
 }

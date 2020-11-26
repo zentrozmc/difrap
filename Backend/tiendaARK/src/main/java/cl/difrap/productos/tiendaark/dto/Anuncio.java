@@ -6,6 +6,7 @@ import cl.difrap.biblioteca.Entidad;
 
 public class Anuncio extends Entidad 
 {
+	private String usuario;
 	private String url;
 	private Date fechaUltimoUso;
 	private Date fechaActivacion;
@@ -15,6 +16,17 @@ public class Anuncio extends Entidad
 	{
 		super(null);
 	}
+
+	
+	public String getUsuario() {
+		return usuario;
+	}
+
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
 
 	public String getUrl() {
 		return url;
@@ -46,6 +58,13 @@ public class Anuncio extends Entidad
 
 	public void setValor(Long valor) {
 		this.valor = valor;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Anuncio [usuario=" + usuario + ", url=" + url + ", fechaUltimoUso=" + fechaUltimoUso
+				+ ", fechaActivacion=" + fechaActivacion + ", valor=" + valor + "]";
 	}
 	
 	
