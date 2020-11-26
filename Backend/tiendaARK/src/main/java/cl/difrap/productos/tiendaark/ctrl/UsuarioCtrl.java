@@ -9,17 +9,23 @@ import javax.xml.bind.DatatypeConverter;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import cl.difrap.biblioteca.Controlador;
 import cl.difrap.productos.tiendaark.dao.UsuarioDao;
 import cl.difrap.productos.tiendaark.dto.Usuario;
-
+@RestController
+@RequestMapping("/usuario")
 public class UsuarioCtrl extends Controlador<UsuarioDao,Usuario>
 {
 	private static final Logger LOG = Logger.getLogger(UsuarioCtrl.class);
 	
 	@Override
-	public ResponseEntity<Usuario> agregar(Usuario entidad) 
+	@RequestMapping(value="/agregar", method=RequestMethod.POST)
+	public ResponseEntity<Usuario> agregar(@RequestBody Usuario entidad) 
 	{
 		try 
 		{

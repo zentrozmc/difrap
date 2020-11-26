@@ -58,25 +58,28 @@ public class FiltroLogin extends AbstractAuthenticationProcessingFilter {
 			InputStream body = request.getInputStream();
 			// Mappeo el JSON enviado a mi clase Usuario
 			this.user = new ObjectMapper().readValue(body, Usuario.class);
-			// Seteo la contraseña en MD5 para su comparacion con spring security
+			// Seteo la contraseÃ±a en MD5 para su comparacion con spring security
 			try 
 			{
 				AES aes = new AES();
 				String keyAES = new String(Base64.getDecoder().decode(Constantes.SECRET_KEY_AES.getBytes()));
 				user.setPassword(aes.desencriptar(keyAES, user.getPassword()));
 			} catch (Exception e) {
-				LOGGER.error("Ha Ocurrido un error al decifrar contraseña", e);
+				LOGGER.error("Ha Ocurrido un error al decifrar contraseÃ±a", e);
 			}
-			LOGGER.info(user.getPassword());
 			user.setPassword(SeguridadUtil.getEncodedPassword(user.getPassword()));
-			// Realizo la Autentificacion con el autenticador de Spring enviandole el
-			// usuario y contraseña
-			UsernamePasswordAuthenticationToken upat = new UsernamePasswordAuthenticationToken(user.getUsuario(), user.getPassword());
-			return getAuthenticationManager().authenticate(upat);
+			if(LOGGER.isDebugEnabled())
+				LOGGER.debug("Usuario ["+user+"]");
 		} catch (Exception e) {
 			LOGGER.error("E-FILTER-LOGIN, ocurrio un error en login", e);
 		}
-		return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken("", ""));
+		// Realizo la Autentificacion con el autenticador de Spring enviandole el
+		// usuario y contraseÃ±a
+		UsernamePasswordAuthenticationToken upat = new UsernamePasswordAuthenticationToken(
+				user.getUsuario(),
+				user.getPassword(),
+				Collections.emptyList());
+		return getAuthenticationManager().authenticate(upat);
 	}
 
 	@Override
@@ -99,13 +102,14 @@ public class FiltroLogin extends AbstractAuthenticationProcessingFilter {
 			AuthenticationException failed) throws IOException, ServletException {
 		intentos++;
 		Map<String, Object> body = new HashMap<String, Object>();
-		body.put("mensaje", "Error de autenticación: usuario o password incorrecto!");
+		body.put("mensaje", "Error de autenticaciÃ³n: usuario o password incorrecto!");
 		body.put("error", failed.getMessage());
+		LOGGER.error("unsuccessfulAuthentication",failed);
 		if (intentos >= intentosConf) {// Cuenta bloqueada por cantidad de intentos
 			if (intentos == intentosConf) {// If para que solo haga 1 update a la bd
 				usuarioService.bloqueaUsuario(user);
 			}
-			body.put("mensaje", "Error de autenticación: usuario o password incorrecto!");
+			body.put("mensaje", "Error de autenticaciÃ³n: usuario o password incorrecto!");
 		}
 		response.setContentType("application/json");
 		response.getWriter().write(new ObjectMapper().writeValueAsString(body));

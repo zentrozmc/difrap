@@ -50,5 +50,12 @@ public class Usuario extends Entidad
 		this.puntos = puntos;
 	}
 	
+	@Override
+	public String toString() {
+		return "Usuario [usuario=" + usuario + ", password=" + password + ", correo=" + correo + ", steamId=" + steamId
+				+ ", arkId=" + arkId + ", puntos=" + puntos + "]";
+	}
+	
+	
 	
 }
