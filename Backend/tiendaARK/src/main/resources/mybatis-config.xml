@@ -29,5 +29,6 @@
     <mappers>
     	<mapper resource="mapper/UsuarioMapper.xml"/>
     	<mapper resource="mapper/AnuncioMapper.xml"/>
+    	<mapper resource="mapper/ItemMapper.xml"/>
     </mappers>
 </configuration>

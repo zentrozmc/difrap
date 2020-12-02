@@ -8,4 +8,8 @@ public class Constantes
 	public static final String JSON_CONTENT_TYPE = "application/json";
 	public static final String SECRET_KEY_AES = "cG9ydGFsRXZlcnRlY0FuZw==";
 	public static final Long TOKEN_EXPIRATION_TIME=1800000L;
+	
+	
+	//estados anuncios
+	public static final int ESTADO_ACTIVO = 1;
 }

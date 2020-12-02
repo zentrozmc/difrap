@@ -11,6 +11,7 @@ public class Anuncio extends Entidad
 	private Date fechaUltimoUso;
 	private Date fechaActivacion;
 	private Long valor;
+	private Integer estado;
 	
 	public Anuncio() 
 	{
@@ -60,12 +61,25 @@ public class Anuncio extends Entidad
 		this.valor = valor;
 	}
 
+	
+
+	public Integer getEstado() {
+		return estado;
+	}
+
+
+	public void setEstado(Integer estado) {
+		this.estado = estado;
+	}
+
 
 	@Override
 	public String toString() {
 		return "Anuncio [usuario=" + usuario + ", url=" + url + ", fechaUltimoUso=" + fechaUltimoUso
-				+ ", fechaActivacion=" + fechaActivacion + ", valor=" + valor + "]";
+				+ ", fechaActivacion=" + fechaActivacion + ", valor=" + valor + ", estado=" + estado + "]";
 	}
+
+
 	
 	
 }

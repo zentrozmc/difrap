@@ -9,6 +9,7 @@
 		<result column="FECHA_ULTIMO_USO"          property="fechaUltimoUso"     javaType="Date" />
 		<result column="FECHA_ACTIVACION"          property="fechaActivacion"     javaType="Date" />
 		<result column="VALOR"          property="valor"     javaType="Long" />
+		<result column="ESTADO"          property="estado"     javaType="Integer" />
 	</resultMap>
 
 	<select id="selectAnuncio" resultMap="Anuncio">
@@ -17,7 +18,8 @@
 	     a.URL,
 	     a.VALOR,
 	     rau.FECHA_ULTIMO_USO,
-	     rau.FECHA_ACTIVACION
+	     rau.FECHA_ACTIVACION,
+	     rau.ESTADO
 	     from ANUNCIOS a
 	     inner join REL_ANUNCIO_USUARIO rau on (a.ID = rau.ID_ANUNCIO)
 	     inner join USUARIO u on (u.ID = rau.ID_USUARIO)
@@ -29,7 +31,8 @@
 	     a.URL,
 	     a.VALOR,
 	     rau.FECHA_ULTIMO_USO,
-	     rau.FECHA_ACTIVACION
+	     rau.FECHA_ACTIVACION,
+	     rau.ESTADO
 	     from ANUNCIOS a
 	     inner join REL_ANUNCIO_USUARIO rau on (a.ID = rau.ID_ANUNCIO)
 	     inner join USUARIOS u on (u.ID = rau.ID_USUARIO)
@@ -43,7 +46,8 @@
 	     ANUNCIOS
 	     SET
 	     URL =  #{url},
-	     VALOR =  #{valor}
+	     VALOR =  #{valor},
+	     ESTADO = #{estado}
 	     where 
 	     ID = #{idIncremental}
     </update>
@@ -54,7 +58,8 @@
 	     REL_ANUNCIO_USUARIO
 	     SET
 	     FECHA_ULTIMO_USO =  #{fechaUltimoUso},
-	     FECHA_ACTIVACION =  #{fechaActivacion}
+	     FECHA_ACTIVACION =  #{fechaActivacion},
+	     ESTADO = #{estado}
 	     where 
 	     ID_ANUNCIO = #{idIncremental} and
 	     ID_USUARIO = (select ID from USUARIOS WHERE USUARIO = #{usuario})
