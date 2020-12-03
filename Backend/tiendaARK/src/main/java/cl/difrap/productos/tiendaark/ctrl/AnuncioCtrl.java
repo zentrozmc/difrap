@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,9 @@ public class AnuncioCtrl extends Controlador<AnuncioDao,Anuncio>
 	private UsuarioDao usuarioDao;
 	
 	@PutMapping(value="/activar/{id}")
-	public ResponseEntity<Anuncio> activar(@RequestHeader(Constantes.HEADER_AUTORIZACION)String token, @PathVariable Long id) 
+	public ResponseEntity<HashMap<String,Object>> activar(@RequestHeader(Constantes.HEADER_AUTORIZACION)String token, @PathVariable Long id) 
 	{
+		HashMap<String,Object> retorno = new HashMap<>();
 		try 
 		{
 			if(token!=null)
@@ -57,23 +59,37 @@ public class AnuncioCtrl extends Controlador<AnuncioDao,Anuncio>
 			{
 				if(a.getFechaUltimoUso().before(dFechaActual))
 					activarAnuncio(a,dFechaActual);
-				else
-					return new ResponseEntity<Anuncio>(new Anuncio(),HttpStatus.CONFLICT);
+				else 
+				{
+					retorno.put("estado", false);
+					retorno.put("codigo", Constantes.RETORNO_API.ANUNCIO_ACTIVADO);
+					retorno.put("descripcion", Constantes.RETORNO_API.ANUNCIO_ACTIVADO.getDescripcion());
+					return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.CONFLICT);
+				}
+					
 			}
 			else 
 				activarAnuncio(a,dFechaActual);
-			return new ResponseEntity<Anuncio>(a,HttpStatus.OK);
+			retorno.put("estado", true);
+			retorno.put("codigo", Constantes.RETORNO_API.OK);
+			retorno.put("descripcion", Constantes.RETORNO_API.OK.getDescripcion());
+			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.OK);
+				
 		} catch (ParseException e) 
 		{
 			LOG.error("Error al activar anuncio",e);
-			return new ResponseEntity<Anuncio>(new Anuncio(),HttpStatus.INTERNAL_SERVER_ERROR);
+			retorno.put("estado", false);
+			retorno.put("codigo", Constantes.RETORNO_API.NO_OK);
+			retorno.put("descripcion", Constantes.RETORNO_API.NO_OK.getDescripcion());
+			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
 	
 	@PutMapping(value="/cobrarPuntos/{id}")
-	public ResponseEntity<Boolean> cobrarPuntos(@RequestHeader(Constantes.HEADER_AUTORIZACION)String token, @PathVariable Long id) 
+	public ResponseEntity<HashMap<String,Object>> cobrarPuntos(@RequestHeader(Constantes.HEADER_AUTORIZACION)String token, @PathVariable Long id) 
 	{
+		HashMap<String,Object> retorno = new HashMap<>();
 		try 
 		{
 			if(token!=null)
@@ -83,7 +99,7 @@ public class AnuncioCtrl extends Controlador<AnuncioDao,Anuncio>
 			a.setUsuario(u.getUsuario());
 			a.setIdIncremental(id);
 			a = dao.obtener(a);
-			
+			a.setUsuario(u.getUsuario());
 			if(a.getEstado()==Constantes.ESTADO_ACTIVO)
 			{
 				Date fechaTope = sumarRestarSegundosFecha(a.getFechaActivacion(),6);
@@ -93,19 +109,43 @@ public class AnuncioCtrl extends Controlador<AnuncioDao,Anuncio>
 					Long puntos = u.getPuntos() + a.getValor();
 					u.setPuntos(puntos);
 					usuarioDao.modificar(u);
-					return new ResponseEntity<Boolean>(true,HttpStatus.OK);
+					cobrarAnuncio(a);
+					retorno.put("estado", true);
+					retorno.put("codigo", Constantes.RETORNO_API.OK);
+					retorno.put("descripcion", Constantes.RETORNO_API.OK.getDescripcion());
+					return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.OK);
 				}
 				else
-					return new ResponseEntity<Boolean>(false,HttpStatus.CONFLICT);
+				{
+					retorno.put("estado", false);
+					retorno.put("codigo", Constantes.RETORNO_API.ANUNCIO_TIEMPO_ESPERA);
+					retorno.put("descripcion", Constantes.RETORNO_API.ANUNCIO_TIEMPO_ESPERA.getDescripcion());
+					return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.CONFLICT);
+				}
+					
 			}
 			else
-				return new ResponseEntity<Boolean>(false,HttpStatus.CONFLICT);
+			{
+				retorno.put("estado", false);
+				retorno.put("codigo", Constantes.RETORNO_API.ANUNCIO_COBRADO);
+				retorno.put("descripcion", Constantes.RETORNO_API.ANUNCIO_COBRADO.getDescripcion());
+				return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.CONFLICT);
+			}
 		} catch (Exception e) 
 		{
-			LOG.error("Error al activar anuncio",e);
-			return new ResponseEntity<Boolean>(false,HttpStatus.INTERNAL_SERVER_ERROR);
+			LOG.error("Error al cobrar anuncio",e);
+			retorno.put("estado", false);
+			retorno.put("codigo", Constantes.RETORNO_API.NO_OK);
+			retorno.put("descripcion", Constantes.RETORNO_API.NO_OK.getDescripcion());
+			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
+	}
+	
+	private void cobrarAnuncio(Anuncio a) 
+	{
+		a.setEstado(Constantes.ESTADO_COBRADO);
+		dao.activarAnuncio(a);
 	}
 	
 	private void activarAnuncio(Anuncio a,Date dFechaActual)

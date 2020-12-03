@@ -7,8 +7,10 @@
         <dependent-module archiveName="bibliotecaApiRest-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/bibliotecaApiRest/bibliotecaApiRest">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="rcon-steam-0.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/rcon-steam/rcon-steam">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="tiendaARK"/>
         <property name="java-output-path" value="/tiendaARK/target/classes"/>
     </wb-module>
 </project-modules>
-
