@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -102,6 +103,56 @@ public class UsuarioCtrl extends Controlador<UsuarioDao,Usuario>
 			return new ResponseEntity<>(e,HttpStatus.OK);
 		else
 			return new ResponseEntity<>(e,HttpStatus.NOT_FOUND);
+	}
+	
+	@PutMapping(value = "/actualizarCuenta")
+	public ResponseEntity<HashMap<String,Object>> actualizarCuenta(@RequestBody Usuario entidad)
+	{
+		HashMap<String,Object> retorno = new HashMap<>();
+		
+		Usuario u = dao.obtener(entidad);
+		entidad.setPassword(u.getPassword());
+		entidad.setPuntos(u.getPuntos());
+		int i = dao.modificar(entidad);
+		if(i>-1)
+		{
+			retorno.put("estado", true);
+			retorno.put("codigo", Constantes.RETORNO_API.OK);
+			retorno.put("descripcion", Constantes.RETORNO_API.OK.getDescripcion());
+			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.OK);
+		}
+		else 
+		{
+			retorno.put("estado", false);
+			retorno.put("codigo", Constantes.RETORNO_API.NO_OK);
+			retorno.put("descripcion", Constantes.RETORNO_API.NO_OK.getDescripcion());
+			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+	}
+	
+	@PutMapping(value = "/actualizarPassword")
+	public ResponseEntity<HashMap<String,Object>> actualizarPassword(@RequestBody Usuario entidad)
+	{
+		HashMap<String,Object> retorno = new HashMap<>();
+		Usuario u = dao.obtener(entidad);
+		u.setPassword(entidad.getPassword());
+		int i = dao.modificar(u);
+		if(i>-1)
+		{
+			retorno.put("estado", true);
+			retorno.put("codigo", Constantes.RETORNO_API.OK);
+			retorno.put("descripcion", Constantes.RETORNO_API.OK.getDescripcion());
+			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.OK);
+		}
+		else 
+		{
+			retorno.put("estado", false);
+			retorno.put("codigo", Constantes.RETORNO_API.NO_OK);
+			retorno.put("descripcion", Constantes.RETORNO_API.NO_OK.getDescripcion());
+			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 	}
 	
 	@GetMapping(value = "/refrescar_token")
