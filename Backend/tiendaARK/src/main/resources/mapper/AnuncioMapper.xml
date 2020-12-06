@@ -12,6 +12,11 @@
 		<result column="ESTADO"          property="estado"     javaType="Integer" />
 	</resultMap>
 
+	<select id="selectAnuncioReal" resultMap="Anuncio">
+	     select  *
+	     from ANUNCIOS 
+	     
+    </select>
 	<select id="selectAnuncio" resultMap="Anuncio">
 	     select  
 	     a.ID,
@@ -22,7 +27,9 @@
 	     rau.ESTADO
 	     from ANUNCIOS a
 	     inner join REL_ANUNCIO_USUARIO rau on (a.ID = rau.ID_ANUNCIO)
-	     inner join USUARIO u on (u.ID = rau.ID_USUARIO)
+	     inner join USUARIOS u on (u.ID = rau.ID_USUARIO)
+	     WHERE
+	     u.USUARIO = #{usuario}
 	     
     </select>
     <select id="getAnuncio" resultMap="Anuncio">
@@ -74,6 +81,21 @@
 	     (
 	     	#{url},
 	     	#{valor}
+	     )
+    </insert>
+    
+    <insert id="insertAnuncioRel" parameterType="Anuncio" useGeneratedKeys="true" keyProperty="idIncremental" keyColumn="ID">
+	     INSERT INTO REL_ANUNCIO_USUARIO
+	     (
+	     	ID_USUARIO,
+	     	ID_ANUNCIO,
+	     	ESTADO
+	     )
+	     VALUES
+	     (
+	     	#{idUsuario},
+	     	#{idIncremental},
+	     	0
 	     )
     </insert>
     

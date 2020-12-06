@@ -24,6 +24,8 @@ public class ConfiguracionSeguridad extends WebSecurityConfigurerAdapter
 {
 
 	private static final String URL_LOGIN="/login";
+	private static final String URL_REGISTRE="/usuario/agregar";
+	private static final String URL_PLAYER="/player";
 	@Autowired
 	private UsuarioSrv userDetailsService;
 	
@@ -75,6 +77,8 @@ public class ConfiguracionSeguridad extends WebSecurityConfigurerAdapter
 			.authorizeRequests()
 			//Se Permite el acceso a la URL del login
 			.antMatchers(URL_LOGIN).permitAll()
+			.antMatchers(URL_REGISTRE).permitAll()
+			.antMatchers(URL_PLAYER).permitAll()
 			//El resto de las peticiones necesita autenticacion
 			.anyRequest().authenticated()
 			//y se agregan filtros

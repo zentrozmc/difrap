@@ -43,7 +43,7 @@ public class RconArk
 		LOG.info("Ejecutando Comando: "+comando);
 		String result = rcon.comando(comando);
 		LOG.info("Resultado Comando: "+result);
-		if("Server received, But no response!!".contains(result))
+		if(result.contains("Server received, But no response!!"))
 			return true;
 		else
 			return false;

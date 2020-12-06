@@ -8,6 +8,7 @@ public class Item extends Entidad
 	private Long cantidad;
 	private String comando;
 	private Long precio;
+	private String icono;
 	
 	public Item() 
 	{
@@ -44,6 +45,14 @@ public class Item extends Entidad
 
 	public void setPrecio(Long precio) {
 		this.precio = precio;
+	}
+
+	public String getIcono() {
+		return icono;
+	}
+
+	public void setIcono(String icono) {
+		this.icono = icono;
 	}
 	
 	

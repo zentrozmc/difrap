@@ -12,6 +12,7 @@ public class Anuncio extends Entidad
 	private Date fechaActivacion;
 	private Long valor;
 	private Integer estado;
+	private Long idUsuario;
 	
 	public Anuncio() 
 	{
@@ -70,6 +71,17 @@ public class Anuncio extends Entidad
 
 	public void setEstado(Integer estado) {
 		this.estado = estado;
+	}
+
+	
+
+	public Long getIdUsuario() {
+		return idUsuario;
+	}
+
+
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 

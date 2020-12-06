@@ -10,13 +10,17 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cl.difrap.biblioteca.Controlador;
+import cl.difrap.biblioteca.RespuestaPaginada;
 import cl.difrap.productos.tiendaark.dao.AnuncioDao;
 import cl.difrap.productos.tiendaark.dao.UsuarioDao;
 import cl.difrap.productos.tiendaark.dto.Anuncio;
@@ -36,6 +40,44 @@ public class AnuncioCtrl extends Controlador<AnuncioDao,Anuncio>
 	
 	@Autowired 
 	private UsuarioDao usuarioDao;
+	
+	@Override
+	@GetMapping(value = "oldListar")
+	public ResponseEntity<RespuestaPaginada> listar(@RequestParam(required = false, defaultValue = "1") int pagina,@RequestParam(required = false, defaultValue = "25") int numreg,Anuncio entidad)
+	{
+		return super.listar(pagina, numreg, entidad);
+	}
+	@Override
+	@GetMapping(value = "oldObtener/{id}")
+	public ResponseEntity<Anuncio> obtener(@PathVariable Long id) 
+	{
+		return super.obtener(id);
+	}
+	
+	@GetMapping(value = "")
+	public ResponseEntity<RespuestaPaginada> listar(@RequestHeader(Constantes.HEADER_AUTORIZACION)String token,@RequestParam(required = false, defaultValue = "1") int pagina,@RequestParam(required = false, defaultValue = "25") int numreg,Anuncio entidad) 
+	{
+		if(token!=null)
+			token=token.replace(Constantes.BEARER, "");
+		Usuario u = tokenProvider.getUserFromJWT(token);
+		entidad.setUsuario(u.getUsuario());
+		return listar(pagina, numreg, entidad);
+	}
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	public ResponseEntity<Anuncio> obtener(@RequestHeader(Constantes.HEADER_AUTORIZACION)String token,@PathVariable Long id) 
+	{
+		if(token!=null)
+			token=token.replace(Constantes.BEARER, "");
+		Usuario u = tokenProvider.getUserFromJWT(token);
+		Anuncio e = new Anuncio();
+		e.setUsuario(u.getUsuario());
+		e.setIdIncremental(id);
+		e = dao.obtener(e);
+		if(e != null)
+			return new ResponseEntity<>(e,HttpStatus.OK);
+		else
+			return new ResponseEntity<>(e,HttpStatus.NOT_FOUND);
+	}
 	
 	@PutMapping(value="/activar/{id}")
 	public ResponseEntity<HashMap<String,Object>> activar(@RequestHeader(Constantes.HEADER_AUTORIZACION)String token, @PathVariable Long id) 

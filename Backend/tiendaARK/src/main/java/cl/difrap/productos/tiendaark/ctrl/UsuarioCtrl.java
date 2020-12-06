@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,20 +35,73 @@ public class UsuarioCtrl extends Controlador<UsuarioDao,Usuario>
 	
 	@Autowired
 	private JwtUtil tokenProvider;
-	
 	@Override
-	@RequestMapping(value="/agregar", method=RequestMethod.POST)
-	public ResponseEntity<Usuario> agregar(@RequestBody Usuario entidad) 
+	@RequestMapping(value="/oldAgregar", method=RequestMethod.POST)
+	public ResponseEntity<Usuario> agregar(@RequestBody Usuario entidad)
 	{
+		return super.agregar(entidad);
+	}
+	@RequestMapping(value="/agregar", method=RequestMethod.POST)
+	public ResponseEntity<HashMap<String,Object>> agregar2(@RequestBody Usuario entidad) 
+	{
+		HashMap<String,Object> retorno = new HashMap<>();
 		try 
 		{
+			
 			entidad.setPassword(encriptarPassword(entidad.getPassword()));
-			return super.agregar(entidad);
+			entidad.setPuntos(0L);
+			List<Usuario> listaU = dao.listar(entidad);
+			for(Usuario u:listaU) 
+			{
+				if(u.getSteamId().equals(entidad.getSteamId()))
+				{
+					retorno.put("estado", false);
+					retorno.put("codigo", Constantes.RETORNO_API.STEAM_ID_DUPLICADO);
+					retorno.put("descripcion", Constantes.RETORNO_API.STEAM_ID_DUPLICADO.getDescripcion());
+					return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+			}
+			Usuario u = dao.obtener(entidad);
+			if(u==null || u.getIdIncremental()==null)
+			{
+				u =dao.agregar(entidad);
+				dao.agregarRel(u);
+				retorno.put("estado", false);
+				retorno.put("codigo", Constantes.RETORNO_API.OK);
+				retorno.put("descripcion", Constantes.RETORNO_API.OK.getDescripcion());
+				retorno.put("resultado", u);
+				return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.OK);
+			}
+			retorno.put("estado", false);
+			retorno.put("codigo", Constantes.RETORNO_API.NOMBRE_USUARIO_DUPLICADO);
+			retorno.put("descripcion", Constantes.RETORNO_API.NOMBRE_USUARIO_DUPLICADO.getDescripcion());
+			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.INTERNAL_SERVER_ERROR);
 		} catch (NoSuchAlgorithmException e) 
 		{
 			LOG.error("Error al agregar usuario",e);
-			return new ResponseEntity<Usuario>(new Usuario(),HttpStatus.INTERNAL_SERVER_ERROR);
+			retorno.put("estado", false);
+			retorno.put("codigo", Constantes.RETORNO_API.NO_OK);
+			retorno.put("descripcion", Constantes.RETORNO_API.NO_OK.getDescripcion());
+			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@RequestMapping(value="oldObtener/{id}", method=RequestMethod.GET)
+	public ResponseEntity<Usuario> obtener(@PathVariable Long id) 
+	{
+		return super.obtener(id);
+	}
+	
+	@RequestMapping(value="/{usuario}", method=RequestMethod.GET)
+	public ResponseEntity<Usuario> obtener(@PathVariable String usuario) 
+	{
+		Usuario e = crearEntidad();
+		e.setUsuario(usuario);
+		e = dao.obtener(e);
+		if(e != null)
+			return new ResponseEntity<>(e,HttpStatus.OK);
+		else
+			return new ResponseEntity<>(e,HttpStatus.NOT_FOUND);
 	}
 	
 	@GetMapping(value = "/refrescar_token")

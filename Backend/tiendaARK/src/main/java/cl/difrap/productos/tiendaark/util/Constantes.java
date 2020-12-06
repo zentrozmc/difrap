@@ -15,6 +15,8 @@ public class Constantes
 		OK("Peticion Existosa"),
 		NO_OK("Peticion Erronea"),
 		JUGADOR_NO_CONECTADO("El jugador no se encuentra conectado"),
+		NOMBRE_USUARIO_DUPLICADO("El nombre de usaurio ingresado ya existe"),
+		STEAM_ID_DUPLICADO("El stamId ingresado ya existe"),
 		SALDO_INSUFICIENTE("No existe saldo suficiente para comprar este item"),
 		ANUNCIO_ACTIVADO("El anuncio ya fue activado hoy"),
 		ANUNCIO_COBRADO("El anuncio ya fue cobrado hoy"),

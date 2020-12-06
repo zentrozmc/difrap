@@ -9,6 +9,7 @@
 		<result column="CANTIDAD"          property="cantidad"     javaType="Long" />
 		<result column="COMANDO"          property="comando"     javaType="String" />
 		<result column="PRECIO"          property="precio"     javaType="Long" />
+		<result column="ICONO"          property="icono"     javaType="String" />
 	</resultMap>
 
 	<select id="selectItem" resultMap="Item">
