@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cl.difrap.bilbioteca.rcon.excepciones.AutenticacionExcepcion;
 import cl.difrap.productos.tiendaark.util.Constantes;
+import cl.difrap.productos.tiendaark.util.ExcepcionRcon;
 import cl.difrap.productos.tiendaark.util.RconArk;
 
 @RestController
@@ -47,6 +48,12 @@ public class PlayerCtrl {
 			retorno.put("descripcion", Constantes.RETORNO_API.NO_OK.getDescripcion());
 			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		catch (ExcepcionRcon e2) 
+		{
+			retorno.put("estado", false);
+			retorno.put("codigo", Constantes.RETORNO_API.NO_OK);
+			retorno.put("descripcion", e2.getMessage());
+			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-
 }

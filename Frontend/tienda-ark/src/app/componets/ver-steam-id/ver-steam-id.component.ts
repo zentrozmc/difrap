@@ -24,8 +24,8 @@ export class VerSteamIdComponent implements OnInit {
         this.listaPlayer=result.resultado;
       },
       error=>{
-        alert("ha ocurrido un error al buscar players conectados")
-        console.log("Error",error);
+        let obj = JSON.parse(error._body);
+        alert(obj.descripcion);
       }
     );
   }

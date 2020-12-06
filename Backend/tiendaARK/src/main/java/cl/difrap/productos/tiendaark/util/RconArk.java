@@ -20,10 +20,12 @@ public class RconArk
 		rcon = new Rcon(Constantes.SERVIDOR_ARK,Constantes.PUERTO_ARK,Constantes.CLAVE_ARK.getBytes());
 	}
 	
-	public Map<String,String> listarJugadores() throws IOException
+	public Map<String,String> listarJugadores() throws IOException, ExcepcionRcon
 	{
 		HashMap<String,String> jugadores = new HashMap<String,String>();
 		String result = rcon.comando("listplayers");
+		if(result.contains("No Players Connected"))
+			throw new ExcepcionRcon("No hay jugadores conectados");
 		BufferedReader br = new BufferedReader(new StringReader(result));
 		String linea;
 		while((linea=br.readLine())!=null)
