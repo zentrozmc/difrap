@@ -1,0 +1,30 @@
+<div class="container" *ngIf="usuario">
+    <div class="row">
+      <div class="col-12">
+          <table class="table table-image">
+            <thead>
+              <tr>
+                <th scope="col">Icono</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Comprar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let it of listaItems">
+                <td class="w-25">
+                  <img src="{{it.icono}}" class="img-fluid img-thumbnail">
+                </td>
+                <td>{{it.nombre}}</td>
+                <td>{{it.cantidad}}</td>
+                <td>{{it.precio}}</td>
+                <td>
+                  <button type="button" class="btn btn-md btn-secondary" (click)="comprar(it.idIncremental)">Comprar</button>
+               </td>
+              </tr>
+            </tbody>
+          </table>   
+      </div>
+    </div>
+  </div>

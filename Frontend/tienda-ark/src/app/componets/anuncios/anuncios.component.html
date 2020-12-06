@@ -1,0 +1,24 @@
+<div class="container" *ngIf="usuario">
+    <div class="row">
+      <div class="col-12">
+          <table class="table table-image">
+            <thead>
+              <tr>
+                <th scope="col">Url</th>
+                <th scope="col">Valor</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let an of listaAnuncios">
+                <th scope="row">{{an.url}}</th>
+                <td>{{an.valor}}</td>
+                <td>
+                   <button type="button" class="btn btn-md btn-secondary" (click)="activar(an.idIncremental,an.url)">ver</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>   
+      </div>
+    </div>
+  </div>

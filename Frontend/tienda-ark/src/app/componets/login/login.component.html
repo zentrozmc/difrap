@@ -1,0 +1,77 @@
+<div class="container-fluid" *ngIf="!usuario">
+	<div class="container">
+		<h2 class="text-center" id="title">MichiSaurios</h2>
+		 <p class="text-center">
+			<small id="passwordHelpInline" class="text-muted">La tiendita</small>
+		</p>
+		<hr>
+		<div class="row">
+			<div class="col-md-5">
+				 <form role="form" #registroForm="ngForm">
+					<fieldset>							
+						<p class="text-uppercase pull-center">Registrate</p>	
+						 <div class="form-group">
+							<input type="text" name="username" id="username" class="form-control input-lg" placeholder="Usuario" [(ngModel)]="registro.usuario" required/>
+						</div>
+						<div class="form-group">
+							<input type="steamId" name="steamId" id="steamId" class="form-control input-lg" placeholder="Steam ID" [(ngModel)]="registro.steamId" required/>
+							<button type="button" class="btn btn-secondary" [routerLink]="['verSteamId']" >
+								conoce tu steam id aqui.
+							</button>
+						</div>
+						<div class="form-group">
+							<input type="playerId" name="playerId" id="playerId" class="form-control input-lg" placeholder="Player ID" [(ngModel)]="registro.arkId" required/>
+							<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="right" data-html="true" data-content="<img src='assets/implante.png' />">
+								ver ejemplo
+							</button>
+						</div>
+						<div class="form-group">
+							<input type="email" name="email" id="email" class="form-control input-lg" placeholder="Correo" [(ngModel)]="registro.correo" required/>
+						</div>
+						<div class="form-group">
+							<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Contraseña" [(ngModel)]="registro.password" required/>
+						</div>
+							<div class="form-group">
+							<input type="password" name="password2" id="password2" class="form-control input-lg" placeholder="Repita contraseña" [(ngModel)]="sPassword" required/>
+						</div>
+						<div class="form-check">
+							<label class="form-check-label">
+							  <input type="checkbox" class="form-check-input" required>
+							  Acepta nuestros terminos y condiciones que no existen, solo agrege esto porque todos los formularios lo tiene
+							</label>
+						  </div>
+						 <div>
+							 <input type="submit" class="btn btn-md btn-primary"  value="Registrar" (click)="registrar()" [disabled]="!registroForm.form.valid">
+						 </div>
+					</fieldset>
+				</form>
+			</div>
+			
+			<div class="col-md-2">
+				<!-------null------>
+			</div>
+			
+			<div class="col-md-5">
+			<form role="form" #loginForm="ngForm">
+				<fieldset>							
+					<p class="text-uppercase"> Iniciar Sesion </p>	
+							
+					<div class="form-group">
+						<input type="email" name="username" id="username" class="form-control input-lg" placeholder="Usuario" [(ngModel)]="inicioSesion.usuario" required>
+					</div>
+					<div class="form-group">
+						<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Contraseña" [(ngModel)]="inicioSesion.password" required>
+					</div>
+					<div>
+						<input type="submit" class="btn btn-md btn-secondary" value="Iniciar" (click)="login()" [disabled]="!loginForm.form.valid" >
+					</div>
+							
+					</fieldset>
+			</form>	
+			</div>
+		</div>
+	</div>
+	<p class="text-center">
+		<small id="passwordHelpInline" class="text-muted"> Developer: Zentroz. @2020 Creditos a: <a href="https://v4-alpha.getbootstrap.com/">boostrap v4.</a></small>
+	</p>
+</div>

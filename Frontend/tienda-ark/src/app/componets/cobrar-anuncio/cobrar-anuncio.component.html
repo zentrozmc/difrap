@@ -1,0 +1,15 @@
+<ng-container *ngIf="anuncio">
+    <div class="card text-center">
+        <div class="card-header">
+            Resultado Exitoso
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Anuncio Cobrado Existosamente</h5>
+          <p class="card-text"> Se han sumando {{anuncio.valor}} puntos</p>
+          <a [routerLink]="['../../verAnuncio']" class="btn btn-primary">Ver Anuncios</a>
+        </div>
+        <div class="card-footer text-muted">
+          
+        </div>
+      </div>
+</ng-container>

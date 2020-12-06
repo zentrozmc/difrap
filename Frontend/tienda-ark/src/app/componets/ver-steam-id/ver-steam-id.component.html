@@ -1,0 +1,16 @@
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Steam Id</th>
+        <th scope="col">Nombre</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pl of listaPlayer; let i = index">
+        <th scope="row">{{i}}</th>
+        <td>{{pl.idSteam}}</td>
+        <td>{{pl.nombre}}</td>
+      </tr>
+    </tbody>
+  </table>
