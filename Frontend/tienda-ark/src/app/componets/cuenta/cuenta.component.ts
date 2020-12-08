@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Usuario } from 'src/app/models/usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -10,9 +11,12 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class CuentaComponent implements OnInit {
   public usuario:any;
   public usuarioS:any;
+  public usuarioCP:any=null;
   constructor(
     private _usuarioService:UsuarioService
-  ) { }
+  ) { 
+    this.usuarioCP = new Usuario(null,null,null,null,null,null,null);
+  }
 
   ngOnInit(): void 
   {
@@ -50,10 +54,12 @@ export class CuentaComponent implements OnInit {
 
   cambiarPassword()
   {
-    this._usuarioService.actualizarPassword(this.usuario).subscribe(
+    this.usuarioCP.usuario = this.usuario.usuario;
+    this._usuarioService.actualizarPassword(this.usuarioCP).subscribe(
       result => 
       { 
         alert(result.descripcion);
+        this.usuarioCP = new Usuario(null,null,null,null,null,null,null);
       },
       error => 
       {

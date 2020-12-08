@@ -5,7 +5,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 
@@ -13,6 +16,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cl.difrap.biblioteca.Controlador;
@@ -33,6 +37,10 @@ import cl.difrap.productos.tiendaark.util.JwtUtil;
 public class UsuarioCtrl extends Controlador<UsuarioDao,Usuario>
 {
 	private static final Logger LOG = Logger.getLogger(UsuarioCtrl.class);
+	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$.-_*abcdefghijklmnopqrstuvwxyz";
+	
+	@Autowired
+    private JavaMailSender mailSender;
 	
 	@Autowired
 	private JwtUtil tokenProvider;
@@ -131,27 +139,73 @@ public class UsuarioCtrl extends Controlador<UsuarioDao,Usuario>
 		
 	}
 	
+	@PutMapping(value = "/recuperarPassword")
+	public ResponseEntity<HashMap<String,Object>> recuperarPassword(@RequestBody Usuario entidad)
+	{
+		HashMap<String,Object> retorno = new HashMap<>();
+		try 
+		{
+			Usuario u = dao.obtener(entidad);
+			String newPass = randomAlphaNumeric(10);
+			String hashPass = encriptarPassword(newPass);
+			u.setPassword(hashPass);
+			int i = dao.updateUsuarioPass(u);
+			if(i>-1)
+			{
+				sendHTMLMail(u,newPass);
+				retorno.put("estado", true);
+				retorno.put("codigo", Constantes.RETORNO_API.OK);
+				retorno.put("descripcion", Constantes.RETORNO_API.OK.getDescripcion());
+				return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.OK);
+			}
+			else 
+			{
+				retorno.put("estado", false);
+				retorno.put("codigo", Constantes.RETORNO_API.NO_OK);
+				retorno.put("descripcion", Constantes.RETORNO_API.NO_OK.getDescripcion());
+				return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		} catch (NoSuchAlgorithmException | MessagingException e) {
+			retorno.put("estado", false);
+			retorno.put("codigo", Constantes.RETORNO_API.NO_OK);
+			retorno.put("descripcion", Constantes.RETORNO_API.NO_OK.getDescripcion());
+			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.INTERNAL_SERVER_ERROR);		}
+
+		
+		
+	}
+	
 	@PutMapping(value = "/actualizarPassword")
 	public ResponseEntity<HashMap<String,Object>> actualizarPassword(@RequestBody Usuario entidad)
 	{
 		HashMap<String,Object> retorno = new HashMap<>();
-		Usuario u = dao.obtener(entidad);
-		u.setPassword(entidad.getPassword());
-		int i = dao.modificar(u);
-		if(i>-1)
+		try 
 		{
-			retorno.put("estado", true);
-			retorno.put("codigo", Constantes.RETORNO_API.OK);
-			retorno.put("descripcion", Constantes.RETORNO_API.OK.getDescripcion());
-			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.OK);
-		}
-		else 
-		{
+			String hashPass = encriptarPassword(entidad.getPassword());
+			Usuario u = dao.obtener(entidad);
+			u.setPassword(hashPass);
+			int i = dao.updateUsuarioPass(u);
+			if(i>-1)
+			{
+				retorno.put("estado", true);
+				retorno.put("codigo", Constantes.RETORNO_API.OK);
+				retorno.put("descripcion", Constantes.RETORNO_API.OK.getDescripcion());
+				return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.OK);
+			}
+			else 
+			{
+				retorno.put("estado", false);
+				retorno.put("codigo", Constantes.RETORNO_API.NO_OK);
+				retorno.put("descripcion", Constantes.RETORNO_API.NO_OK.getDescripcion());
+				return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		} catch (NoSuchAlgorithmException e) {
 			retorno.put("estado", false);
 			retorno.put("codigo", Constantes.RETORNO_API.NO_OK);
 			retorno.put("descripcion", Constantes.RETORNO_API.NO_OK.getDescripcion());
 			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		
 		
 	}
 	
@@ -192,4 +246,31 @@ public class UsuarioCtrl extends Controlador<UsuarioDao,Usuario>
 		String password = DatatypeConverter.printHexBinary(digest).toLowerCase();
 		return password;
 	}
+	
+	private String randomAlphaNumeric(int count)
+	{
+		StringBuilder builder = new StringBuilder();
+		while (count-- != 0) {
+			int character = new Random().nextInt(ALPHA_NUMERIC_STRING.length());
+			builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+		}
+		return builder.toString();
+	}
+	private void sendHTMLMail(Usuario u,String pass) throws MessagingException 
+    {
+		String contenido = "<html>";
+		contenido+="<body>";
+		contenido+="<p><b>Su contraseña es:<b></p>";
+		contenido+="<p>"+pass+"</p>";
+		contenido+="</body>";
+		contenido+="</html>";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, false, "utf-8");
+        helper.setTo(u.getCorreo());
+        message.setFrom("no-reply@michisaurios.cl");
+        helper.setSubject("Recuperacion de contraseña");   
+        message.setContent(contenido, "text/html");
+        mailSender.send(message);
+    }
 }

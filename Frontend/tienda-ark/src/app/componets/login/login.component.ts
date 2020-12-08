@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   public usuario:any = null;
   public inicioSesion:Usuario;
   public registro:Usuario;
+  public olvido:Usuario;
   public sPassword:any;
   constructor(
     private _usuarioService:UsuarioService,
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit {
   {
     this.inicioSesion = new Usuario(null,null,null,null,null,null,null);
     this.registro = new Usuario(null,null,null,null,null,null,null);
+    this.olvido = new Usuario(null,null,null,null,null,null,null);
   }
 
   ngDoCheck() 
@@ -33,6 +35,7 @@ export class LoginComponent implements OnInit {
     $(function () {
       $('[data-toggle="popover"]').popover()
     });
+    
   }
 
   login()
@@ -61,6 +64,22 @@ export class LoginComponent implements OnInit {
       {
         alert(result.descripcion);
         this.registro = new Usuario(null,null,null,null,null,null,null);
+      },
+      error=>
+      {
+        let obj = JSON.parse(error._body);
+        alert(obj.descripcion);
+      }
+    )
+  }
+
+  recuperar()
+  {
+    this._usuarioService.recuperarPassword(this.olvido).subscribe(
+      result=>
+      {
+        alert(result.descripcion);
+        this.olvido = new Usuario(null,null,null,null,null,null,null);
       },
       error=>
       {

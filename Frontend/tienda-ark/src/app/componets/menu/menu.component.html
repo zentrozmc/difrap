@@ -14,10 +14,10 @@
     <form class="form-inline" *ngIf="usuario">
         <a class="nav-item nav-link disabled" href="#"><b>{{usuario.usuario}}</b></a>
         <a class="nav-item nav-link disabled" href="#">Puntos: {{usuario.puntos}}</a>
-        <input type="button" class="btn btn-md btn-secondary" value="Cerrar Session" (click)="logout()"  >
+        <input type="button" class="btn btn-md btn-secondary" value="Cerrar Sesión" (click)="logout()"  >
         
     </form>
     <form class="form-inline" *ngIf="!usuario">
-        <input type="button" class="btn btn-md btn-secondary" value="Iniciar Session" [routerLink]="['']" >
+        <input type="button" class="btn btn-md btn-secondary" value="Iniciar Sesión" [routerLink]="['']" >
     </form>
 </nav>

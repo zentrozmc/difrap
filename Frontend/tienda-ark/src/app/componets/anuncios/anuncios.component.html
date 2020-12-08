@@ -15,6 +15,7 @@
                 <td>{{an.valor}}</td>
                 <td>
                    <button type="button" class="btn btn-md btn-secondary" (click)="activar(an.idIncremental,an.url)">ver</button>
+                   <button *ngIf="an.estado==1" type="button" class="btn btn-md btn-secondary" [routerLink]="['..','cobrarAnuncio',an.idIncremental]">cobrar</button>
                 </td>
               </tr>
             </tbody>

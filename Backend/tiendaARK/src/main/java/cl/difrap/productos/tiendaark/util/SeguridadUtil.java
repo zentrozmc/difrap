@@ -19,7 +19,7 @@ public class SeguridadUtil
 	        byte[] digest = md.digest(plainText.getBytes(StandardCharsets.UTF_8));
 	        return DatatypeConverter.printHexBinary(digest).toLowerCase();
 		} catch (Exception e) {
-			throw new ExcepcionApiTiendaArk("Error al cifrar contraseña", e);
+			throw new ExcepcionApiTiendaArk("Error al cifrar contraseÃ±a", e);
 		}
 	}
 }

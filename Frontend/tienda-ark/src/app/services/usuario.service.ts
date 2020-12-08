@@ -52,6 +52,10 @@ export class UsuarioService
         return this._http.put(this.url+"/actualizarCuenta",usuario,this.requestOptions()).map(res=>res.json());
     }
 
+    recuperarPassword(usuario:any){
+        return this._http.put(this.url+"/recuperarPassword",usuario,this.requestOptions()).map(res=>res.json());
+    }
+
     actualizarPassword(usuario:any)
     {
         return this._http.put(this.url+"/actualizarPassword",usuario,this.requestOptions()).map(res=>res.json());

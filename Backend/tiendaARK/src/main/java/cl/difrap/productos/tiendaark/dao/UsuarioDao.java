@@ -27,5 +27,10 @@ public class UsuarioDao extends DAO<Usuario>{
 		}
 		return true;
 	}
+	
+	public int updateUsuarioPass(Usuario entidad)
+	{
+		return this.sqlSession.update("updateUsuarioPass", entidad);
+	}
 
 }

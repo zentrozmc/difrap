@@ -34,6 +34,15 @@
 	     where 
 	     ID = #{idIncremental}
     </update>
+    
+    <update id="updateUsuarioPass" parameterType="Usuario">
+	     UPDATE
+	     USUARIOS
+	     SET
+	     PASSWORD =  #{password}
+	     where 
+	     ID = #{idIncremental}
+    </update>
     <insert id="insertUsuario" parameterType="Usuario" useGeneratedKeys="true" keyProperty="idIncremental" keyColumn="ID">
 	     INSERT INTO USUARIOS
 	     (

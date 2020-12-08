@@ -26,6 +26,8 @@ public class ConfiguracionSeguridad extends WebSecurityConfigurerAdapter
 	private static final String URL_LOGIN="/login";
 	private static final String URL_REGISTRE="/usuario/agregar";
 	private static final String URL_PLAYER="/player";
+	private static final String URL_RECUPERAR_CLAVE="/usuario/recuperarPassword";
+	
 	@Autowired
 	private UsuarioSrv userDetailsService;
 	
@@ -79,6 +81,7 @@ public class ConfiguracionSeguridad extends WebSecurityConfigurerAdapter
 			.antMatchers(URL_LOGIN).permitAll()
 			.antMatchers(URL_REGISTRE).permitAll()
 			.antMatchers(URL_PLAYER).permitAll()
+			.antMatchers(URL_RECUPERAR_CLAVE).permitAll()
 			//El resto de las peticiones necesita autenticacion
 			.anyRequest().authenticated()
 			//y se agregan filtros
