@@ -38,9 +38,9 @@ export class ItemService
         return this._http.get(this.url+"/"+id,this.requestOptions()).map(res=>res.json());
     }
 
-    listar()
+    listar(tipo:any)
     {
-        return this._http.get(this.url+"",this.requestOptions()).map(res=>res.json());
+        return this._http.get(this.url+"?tipo="+tipo,this.requestOptions()).map(res=>res.json());
     }
 
     comprar(id:any)

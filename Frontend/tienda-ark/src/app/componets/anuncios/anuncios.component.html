@@ -1,4 +1,4 @@
-<div class="container" *ngIf="usuario">
+<div class="container bg-light" *ngIf="usuario">
     <div class="row">
       <div class="col-12">
           <table class="table table-image">
@@ -14,7 +14,8 @@
                 <th scope="row">{{an.url}}</th>
                 <td>{{an.valor}}</td>
                 <td>
-                   <button type="button" class="btn btn-md btn-secondary" (click)="activar(an.idIncremental,an.url)">ver</button>
+                   <button *ngIf="an.estado==2" type="button" class="btn btn-md btn-secondary" (click)="activar(an.idIncremental,an.url)">ver</button>
+                   <button *ngIf="an.estado!=2" type="button" class="btn btn-md btn-success" (click)="activar(an.idIncremental,an.url)">ver</button>
                    <button *ngIf="an.estado==1" type="button" class="btn btn-md btn-secondary" [routerLink]="['..','cobrarAnuncio',an.idIncremental]">cobrar</button>
                 </td>
               </tr>

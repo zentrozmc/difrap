@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
       },
       error=>
       {
+        alert("Usuario o Contraseña Incorrectos");
         console.log("Error",error);
       }
     )

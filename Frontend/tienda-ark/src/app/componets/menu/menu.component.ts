@@ -29,8 +29,8 @@ export class MenuComponent implements OnInit {
           result => 
           { 
             let token = result.token;
-            sessionStorage.setItem("token",token);
             localStorage.setItem("token",token);
+            sessionStorage.setItem("token",token);
           },
           error => 
           {

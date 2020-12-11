@@ -2,3 +2,17 @@
     color: #fff;
     background-color: #6c757d;
 }
+
+.tab-content
+{
+    background-color: rgba(245, 245, 245, 0.8) !important;
+}
+
+.nav
+{
+    background-color: rgba(245, 245, 245, 0.8) !important;
+}
+.container 
+{ 
+    background-color: transparent !important;
+}

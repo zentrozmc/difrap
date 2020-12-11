@@ -234,6 +234,7 @@ public class UsuarioCtrl extends Controlador<UsuarioDao,Usuario>
 		retorno.put("codigo", Constantes.RETORNO_API.OK);
 		retorno.put("descripcion", Constantes.RETORNO_API.OK.getDescripcion());
 		String newToken = tokenProvider.makeToken(request, u);
+		newToken = Constantes.BEARER+newToken;
 		retorno.put("token", newToken);
 		return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.OK);
 		

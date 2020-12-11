@@ -10,6 +10,9 @@
                 <div class="form-group">
                     <label>Steam Id</label>
                     <input type="steamId" name="steamId" id="steamId" class="form-control input-lg" placeholder="Steam ID" [(ngModel)]="usuario.steamId"/>
+                    <button type="button" class="btn btn-secondary" [routerLink]="['..','verSteamId']" >
+                        conoce tu steam id aqui.
+                    </button>
                 </div>
                 <div class="form-group">
                     <label>Player Id</label>
@@ -32,5 +35,6 @@
             </fieldset>
         </form>
     </div>
+    <br/>
     
 </div>

@@ -1,7 +1,7 @@
-<div class="container" *ngIf="usuario">
-    <div class="row">
+<div class="container bg-light" *ngIf="usuario">
+    <div class="row" >
       <div class="col-12">
-          <table class="table table-image">
+          <table class="table table-image" >
             <thead>
               <tr>
                 <th scope="col">Icono</th>
@@ -14,7 +14,7 @@
             <tbody>
               <tr *ngFor="let it of listaItems">
                 <td class="w-25">
-                  <img src="{{it.icono}}" class="img-fluid img-thumbnail">
+                  <img src="{{it.icono}}" class="img-fluid img-thumbnail"  width="128" height="128">
                 </td>
                 <td>{{it.nombre}}</td>
                 <td>{{it.cantidad}}</td>

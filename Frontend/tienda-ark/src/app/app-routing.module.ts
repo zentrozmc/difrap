@@ -12,7 +12,7 @@ const routes: Routes =
   {path: '', component: LoginComponent  },
   {path: 'verAnuncio', component: AnunciosComponent},
   {path: 'cobrarAnuncio/:id', component: CobrarAnuncioComponent},
-  {path: 'comprarItems', component: ItemsComponent},
+  {path: 'comprarItems/:id', component: ItemsComponent},
   {path: 'verSteamId', component: VerSteamIdComponent},
   {path: 'cuenta', component: CuentaComponent},
   

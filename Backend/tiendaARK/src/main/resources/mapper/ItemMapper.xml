@@ -10,6 +10,7 @@
 		<result column="COMANDO"          property="comando"     javaType="String" />
 		<result column="PRECIO"          property="precio"     javaType="Long" />
 		<result column="ICONO"          property="icono"     javaType="String" />
+		<result column="TIPO"          property="tipo"     javaType="Integer" />
 	</resultMap>
 
 	<select id="selectItem" resultMap="Item">
@@ -29,6 +30,9 @@
 	      	<if test = "precio != null ">
 	        	and PRECIO = #{precio}
 	      	</if>
+	      	<if test = "tipo != null ">
+	        	and TIPO = #{tipo}
+	      	</if>
   		</where>
 	     
     </select>
@@ -47,7 +51,8 @@
 	     NOMBRE =  #{nombre},
 	     CANTIDAD =  #{cantidad},
 	     COMANDO = #{comando},
-	     PRECIO = #{precio}
+	     PRECIO = #{precio},
+	     TIPO = #{tipo}
 	     where 
 	     ID = #{idIncremental}
     </update>
@@ -58,14 +63,16 @@
 	     	NOMBRE,
 	     	CANTIDAD,
 	     	COMANDO,
-	     	PRECIO
+	     	PRECIO,
+	     	TIPO
 	     )
 	     VALUES
 	     (
 	     	#{nombre},
 	     	#{cantidad},
 	     	#{comando},
-	     	#{precio}
+	     	#{precio},
+	     	#{tipo}
 	     )
     </insert>
     
@@ -91,6 +98,9 @@
 	      	</if>
 	      	<if test = "precio != null ">
 	        	and PRECIO = #{precio}
+	      	</if>
+	      	<if test = "tipo != null ">
+	        	and TIPO = #{tipo}
 	      	</if>
   		</where>
     </select>

@@ -1,4 +1,4 @@
-<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">MichiSaurios</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -6,13 +6,35 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup" >
         <div class="navbar-nav" *ngIf="usuario">
         <a class="nav-item nav-link" [routerLink]="['verAnuncio']">Anuncios</a>
-        <a class="nav-item nav-link" [routerLink]="['comprarItems']">Items</a>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Items
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" [routerLink]="['comprarItems/1']">Recursos</a>
+                <a class="dropdown-item" [routerLink]="['comprarItems/2']">Herramientas</a>
+                <a class="dropdown-item" [routerLink]="['comprarItems/3']">Armaduras</a>
+                <a class="dropdown-item" [routerLink]="['comprarItems/4']">Monturas</a>
+                <a class="dropdown-item" [routerLink]="['comprarItems/5']">Estructuras</a>
+                <a class="dropdown-item" [routerLink]="['comprarItems/6']">Colorante</a>
+                <a class="dropdown-item" [routerLink]="['comprarItems/7']">Consumibles</a>
+                <a class="dropdown-item" [routerLink]="['comprarItems/8']">Recetas</a>
+                <a class="dropdown-item" [routerLink]="['comprarItems/9']">Huevos</a>
+                <a class="dropdown-item" [routerLink]="['comprarItems/10']">Agricultura</a>
+                <a class="dropdown-item" [routerLink]="['comprarItems/11']">Semillas</a>
+                <a class="dropdown-item" [routerLink]="['comprarItems/12']">Armas y Accesorios</a>
+                <a class="dropdown-item" [routerLink]="['comprarItems/13']">Munición</a>
+                <a class="dropdown-item" [routerLink]="['comprarItems/14']">Skins</a>
+                <a class="dropdown-item" [routerLink]="['comprarItems/15']">Artefactos</a>
+                <a class="dropdown-item" [routerLink]="['comprarItems/16']">Trofeos</a>
+            </div>
+        </li>
         <a class="nav-item nav-link" [routerLink]="['cuenta']">Mi Cuenta</a>
         <!--a class="nav-item nav-link disabled" href="#">Disabled</a-->
         </div>
     </div>
     <form class="form-inline" *ngIf="usuario">
-        <a class="nav-item nav-link disabled" href="#"><b>{{usuario.usuario}}</b></a>
+        <a class="nav-item nav-link disabled " href="#"><b>{{usuario.usuario}}</b></a>
         <a class="nav-item nav-link disabled" href="#">Puntos: {{usuario.puntos}}</a>
         <input type="button" class="btn btn-md btn-secondary" value="Cerrar Sesión" (click)="logout()"  >
         

@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cl.difrap.biblioteca.Controlador;
+import cl.difrap.productos.tiendaark.dao.HistorialCompraDao;
 import cl.difrap.productos.tiendaark.dao.ItemDao;
 import cl.difrap.productos.tiendaark.dao.UsuarioDao;
+import cl.difrap.productos.tiendaark.dto.HistorialCompra;
 import cl.difrap.productos.tiendaark.dto.Item;
 import cl.difrap.productos.tiendaark.dto.Usuario;
 import cl.difrap.productos.tiendaark.util.Constantes;
@@ -32,6 +34,8 @@ public class ItemCtrl extends Controlador<ItemDao,Item>
 	private JwtUtil tokenProvider;
 	@Autowired 
 	private UsuarioDao usuarioDao;
+	@Autowired 
+	private HistorialCompraDao hcDao;
 	
 	@PutMapping(value="/{id}/comprar")
 	public ResponseEntity<HashMap<String,Object>> comprar(@RequestHeader(Constantes.HEADER_AUTORIZACION) String token, @PathVariable Long id) 
@@ -55,6 +59,14 @@ public class ItemCtrl extends Controlador<ItemDao,Item>
 			{
 				retorno.put("estado", true);
 				usuarioDao.modificar(u);
+				HistorialCompra hc = new HistorialCompra();
+				hc.setArkId(u.getArkId());
+				hc.setSteamId(u.getSteamId());
+				hc.setIdUsuario(u.getIdIncremental());
+				hc.setCantidad(i.getCantidad());
+				hc.setIdItem(i.getIdIncremental());
+				hc.setPrecio(i.getPrecio());
+				hcDao.agregar(hc);
 				return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.OK);
 			}
 			else

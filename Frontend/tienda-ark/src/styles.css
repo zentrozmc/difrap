@@ -1,6 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 body
 {
+    background-attachment: fixed;
+    background-color: #4C6663;
+    background-image: url( https://images6.alphacoders.com/910/thumb-1920-910352.jpg);
+   
+    /*background-image: url(https://ark.gamepedia.com/media/9/98/Bg.jpg);*/
+    background-repeat: repeat;
+    background-size: cover;
     margin-top: 60px !important;
+}
+
+.container 
+{ 
+    background-color: rgba(245, 245, 245, 0.8) !important;
 }
 
