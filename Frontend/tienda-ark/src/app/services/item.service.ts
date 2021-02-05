@@ -47,5 +47,10 @@ export class ItemService
     {
         return this._http.put(this.url+"/"+id+"/comprar",null,this.requestOptions()).map(res=>res.json());
     }
+
+    gacha()
+    {
+        return this._http.get(this.url+"/gacha",this.requestOptions()).map(res=>res.json());
+    }
     
 }

@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Item } from 'src/app/models/item';
+import { ItemService } from 'src/app/services/item.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'],
-  providers:[UsuarioService]
+  providers:[UsuarioService,ItemService]
 })
 export class MenuComponent implements OnInit {
   public usuario:any = null;
@@ -14,6 +16,7 @@ export class MenuComponent implements OnInit {
 
   constructor(
     private _usuarioService:UsuarioService,
+    private _itemService:ItemService,
     private router:Router
   ) 
   { 
@@ -100,4 +103,19 @@ export class MenuComponent implements OnInit {
    
   }
 
+  gacha()
+  {
+    this._itemService.gacha().subscribe(
+      result=>
+      {
+        let item:Item = result.resultado;
+        alert("Has recibido "+item.cantidad+" "+item.nombre);
+      },
+      error=>
+      {
+        let obj = JSON.parse(error._body);
+        alert(obj.descripcion);
+      }
+    );
+  }
 }

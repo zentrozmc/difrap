@@ -9,7 +9,7 @@ export class MenuService
     )
     {
         let nulo:any;
-        this.menu = new MenuComponent(nulo,nulo);
+        this.menu = new MenuComponent(nulo,nulo,nulo);
     }
 
     setMenu(m:MenuComponent) 

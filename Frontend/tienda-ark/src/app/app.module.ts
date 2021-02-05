@@ -14,6 +14,8 @@ import { VerSteamIdComponent } from './componets/ver-steam-id/ver-steam-id.compo
 import { MenuService } from './services/menu.service';
 import { CobrarAnuncioComponent } from './componets/cobrar-anuncio/cobrar-anuncio.component';
 import { CuentaComponent } from './componets/cuenta/cuenta.component';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +29,9 @@ import { CuentaComponent } from './componets/cuenta/cuenta.component';
     
   ],
   imports: [
+    NgxSpinnerModule,
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
     HttpModule,
