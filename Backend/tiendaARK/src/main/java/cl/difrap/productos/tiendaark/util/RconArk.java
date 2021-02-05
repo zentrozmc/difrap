@@ -40,6 +40,12 @@ public class RconArk
 		return jugadores;
 	}
 	
+	public boolean cambiarNombre(String nombreAntiguo, String nombreNuevo) throws IOException 
+	{
+		String comando = "RenamePlayer \""+nombreAntiguo+"\" "+nombreNuevo;
+		return ejecutarComando(comando);
+	}
+	
 	public boolean ejecutarComando(String comando) throws IOException 
 	{
 		LOG.info("Ejecutando Comando: "+comando);
@@ -50,4 +56,5 @@ public class RconArk
 		else
 			return false;
 	}
+
 }

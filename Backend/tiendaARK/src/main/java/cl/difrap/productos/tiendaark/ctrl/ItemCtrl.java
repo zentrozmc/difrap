@@ -1,5 +1,8 @@
 package cl.difrap.productos.tiendaark.ctrl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -82,6 +86,60 @@ public class ItemCtrl extends Controlador<ItemDao,Item>
 			retorno.put("descripcion", Constantes.RETORNO_API.SALDO_INSUFICIENTE.getDescripcion());
 			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.CONFLICT);
 		}
+		
+	}
+	
+	@GetMapping(value="/gacha")
+	public ResponseEntity<HashMap<String,Object>> gacha(@RequestHeader(Constantes.HEADER_AUTORIZACION) String token) 
+	{
+		HashMap<String,Object> retorno = new HashMap<>();
+		try 
+		{
+			if(token!=null)
+				token=token.replace(Constantes.BEARER, "");
+			Usuario u = tokenProvider.getUserFromJWT(token);
+			u = usuarioDao.obtener(u);
+			Item i = dao.obtenerAleatorio();
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+			String fechaActual = sdf.format(new Date());
+			Date dFechaActual = sdf.parse(fechaActual);
+			if(u.getFechaGacha()==null || u.getFechaGacha().before(dFechaActual) )
+			{
+				RETORNO_API resultadoCmd = ejecutarComando(i,u);
+				retorno.put("codigo", resultadoCmd);
+				retorno.put("descripcion", resultadoCmd.getDescripcion());
+				if(resultadoCmd==Constantes.RETORNO_API.OK)
+				{
+					retorno.put("estado", true);
+					retorno.put("resultado", i);
+					u.setFechaGacha(dFechaActual);
+					usuarioDao.modificar(u); 
+					return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.OK);
+				}
+				else
+				{
+					retorno.put("estado", false);
+					return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.CONFLICT);
+				}
+			}
+			else 
+			{
+				retorno.put("estado", false);
+				retorno.put("codigo", Constantes.RETORNO_API.GACHA_UTILIZADO);
+				retorno.put("descripcion", Constantes.RETORNO_API.GACHA_UTILIZADO.getDescripcion());
+				return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.CONFLICT);
+			}
+			
+		} catch (ParseException e) 
+		{
+			LOG.error("Error al activar anuncio",e);
+			retorno.put("estado", false);
+			retorno.put("codigo", Constantes.RETORNO_API.NO_OK);
+			retorno.put("descripcion", Constantes.RETORNO_API.NO_OK.getDescripcion());
+			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 		
 	}
 	

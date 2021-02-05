@@ -104,5 +104,11 @@
 	      	</if>
   		</where>
     </select>
+    <select id="getItemAleatorio" resultMap="Item">
+	    SELECT * FROM ITEMS
+		ORDER BY RAND()
+		LIMIT 1
+    </select>
+    
     
 </mapper>

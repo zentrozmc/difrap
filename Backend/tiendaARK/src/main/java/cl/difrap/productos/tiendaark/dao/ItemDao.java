@@ -11,5 +11,10 @@ public class ItemDao extends DAO<Item>{
 	public ItemDao(SqlSession sqlSession) {
 		super(sqlSession);
 	}
-
+	
+	public Item obtenerAleatorio()
+	{
+		return this.sqlSession.selectOne("getItemAleatorio");
+	}
+	
 }

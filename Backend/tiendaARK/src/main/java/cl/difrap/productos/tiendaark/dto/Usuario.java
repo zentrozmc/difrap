@@ -1,5 +1,7 @@
 package cl.difrap.productos.tiendaark.dto;
 
+import java.util.Date;
+
 import cl.difrap.biblioteca.Entidad;
 
 public class Usuario extends Entidad
@@ -10,6 +12,7 @@ public class Usuario extends Entidad
 	private String steamId;
 	private String arkId;
 	private Long puntos;
+	private Date fechaGacha;
 	public Usuario() {
 		super(null);
 	}
@@ -49,7 +52,12 @@ public class Usuario extends Entidad
 	public void setPuntos(Long puntos) {
 		this.puntos = puntos;
 	}
-	
+	public Date getFechaGacha() {
+		return fechaGacha;
+	}
+	public void setFechaGacha(Date fechaGacha) {
+		this.fechaGacha = fechaGacha;
+	}
 	@Override
 	public String toString() {
 		return "Usuario [usuario=" + usuario + ", password=" + password + ", correo=" + correo + ", steamId=" + steamId

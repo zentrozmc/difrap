@@ -11,6 +11,7 @@
 		<result column="ARK_ID"          property="arkId"     javaType="String" />
 		<result column="CORREO"          property="correo"     javaType="String" />
 		<result column="PUNTOS"          property="puntos"     javaType="Long" />
+		<result column="FECHA_GACHA"          property="fechaGacha"     javaType="Date" />
 	</resultMap>
 
 	<select id="selectUsuario" resultMap="Usuario">
@@ -30,7 +31,8 @@
 	     STEAM_ID =  #{steamId},
 	     ARK_ID =  #{arkId},
 	     CORREO =  #{correo},
-	     PUNTOS =  #{puntos}
+	     PUNTOS =  #{puntos},
+	     FECHA_GACHA = #{fechaGacha}
 	     where 
 	     ID = #{idIncremental}
     </update>
@@ -51,7 +53,8 @@
 	     	STEAM_ID,
 	     	ARK_ID,
 	     	CORREO,
-	     	PUNTOS
+	     	PUNTOS,
+	     	FECHA_GACHA
 	     )
 	     VALUES
 	     (
@@ -60,7 +63,8 @@
 	     	#{steamId},
 	     	#{arkId},
 	     	#{correo},
-	     	#{puntos}
+	     	#{puntos},
+	     	#{fechaGacha}
 	     )
     </insert>
     

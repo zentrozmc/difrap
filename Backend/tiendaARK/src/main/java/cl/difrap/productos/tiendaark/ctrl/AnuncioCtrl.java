@@ -90,8 +90,7 @@ public class AnuncioCtrl extends Controlador<AnuncioDao,Anuncio>
 			Usuario u = tokenProvider.getUserFromJWT(token);
 			SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
 			String fechaActual = sdf.format(new Date());
-			Date dFechaActual;
-			dFechaActual = sdf.parse(fechaActual);
+			Date dFechaActual = sdf.parse(fechaActual);
 			Anuncio a = new Anuncio();
 			a.setUsuario(u.getUsuario());
 			a.setIdIncremental(id);
