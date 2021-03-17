@@ -72,19 +72,26 @@ export class MenuComponent implements OnInit {
   {
     if(localStorage.getItem("usuario"))
     {
+     
+      let token = localStorage.getItem('token');
+      sessionStorage.setItem("usuario",localStorage.getItem('usuario')!);
+      sessionStorage.setItem("token",token?token:"");
       if(!this.usuario)
       {
         this.usuario = JSON.parse(localStorage.getItem('usuario')!.toString());
         this.actualizarUsuario();
       } 
-      let token = localStorage.getItem('token');
-      sessionStorage.setItem("usuario",localStorage.getItem('usuario')!);
-      sessionStorage.setItem("token",token?token:"");
-      
     }
     else if(sessionStorage.getItem("usuario"))
     {
-      this.usuario = sessionStorage.getItem('usuario');
+      let token = sessionStorage.getItem('token');
+      localStorage.setItem("usuario",sessionStorage.getItem('usuario')!);
+      localStorage.setItem("token",token?token:"");
+      if(!this.usuario)
+      {
+        this.usuario = JSON.parse(sessionStorage.getItem('usuario')!.toString());
+        this.actualizarUsuario();
+      } 
     }
   }
 

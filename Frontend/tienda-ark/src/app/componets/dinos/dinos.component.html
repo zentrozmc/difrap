@@ -1,0 +1,58 @@
+<div class="container bg-light" *ngIf="usuario">
+  <div class="card text-center">
+    <div class="card-header bg-warning">
+        Aviso
+    </div>
+    <div class="card-body">
+      <p class="card-text">No se han echo pruebas con los dinos de eventos, por ende no puedo asegurar que estos spawneen correctamente.</p>
+    </div>
+  </div>
+    <div class="row" >
+        <div class="col-12">
+            <table class="table table-image" >
+              <thead>
+                <tr>
+                  <th scope="col">Icono</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Nivel</th>
+                  <th scope="col">Precio por Nivel</th>
+                  <th scope="col">Comprar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let it of listaDinos; let i = index">
+                  <td class="w-25">
+                    <img src="{{it.icono}}" class="img-fluid img-thumbnail"  width="128" height="128">
+                  </td>
+                  <td>{{it.nombre}}</td>
+                  <td><input type="text" id="dino{{i}}" [(ngModel)]="listaDinos[i].nivel"/></td>
+                  <td>{{it.precio}}</td>
+                  <td>
+                    <button type="button" class="btn btn-md btn-secondary" (click)="establecerDino(i)" data-toggle="modal" data-target="#dinoModal">Comprar</button>
+                 </td>
+                </tr>
+              </tbody>
+            </table>   
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="dinoModal" tabindex="-1" role="dialog" aria-labelledby="dinoModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dinoModalLabel">Comprar Dino</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Esta seguro de que desea comprar {{dino.nombre}} de nivel {{dino.nivel}} por {{dino.nivel * dino.precio}} punto(s)?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="comprar()" data-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>

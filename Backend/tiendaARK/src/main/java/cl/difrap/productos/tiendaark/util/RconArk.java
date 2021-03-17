@@ -53,6 +53,8 @@ public class RconArk
 		LOG.info("Resultado Comando: "+result);
 		if(result.contains("Server received, But no response!!"))
 			return true;
+		else if(result.contains("Successfully spawned dino"))
+			return true;
 		else
 			return false;
 	}

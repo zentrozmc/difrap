@@ -39,7 +39,7 @@ public class Constantes
 	public static final int ESTADO_COBRADO = 2;
 	
 	//Conexion Steam
-	public static final String SERVIDOR_ARK = "190.164.68.47";
-	public static final int PUERTO_ARK = 27022;
+	public static final String SERVIDOR_ARK = "michisaurios.ddns.net";
+	public static final int PUERTO_ARK = 32330;
 	public static final String CLAVE_ARK = "michis504A";
 }

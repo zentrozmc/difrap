@@ -31,5 +31,6 @@
     	<mapper resource="mapper/AnuncioMapper.xml"/>
     	<mapper resource="mapper/ItemMapper.xml"/>
     	<mapper resource="mapper/HistorialCompraMapper.xml"/>
+    	<mapper resource="mapper/DinoMapper.xml"/>
     </mappers>
 </configuration>

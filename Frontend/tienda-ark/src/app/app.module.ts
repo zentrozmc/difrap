@@ -15,7 +15,8 @@ import { MenuService } from './services/menu.service';
 import { CobrarAnuncioComponent } from './componets/cobrar-anuncio/cobrar-anuncio.component';
 import { CuentaComponent } from './componets/cuenta/cuenta.component';
 import { NgxSpinnerModule } from "ngx-spinner";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DinosComponent } from './componets/dinos/dinos.component'; 
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +26,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ItemsComponent,
     VerSteamIdComponent,
     CobrarAnuncioComponent,
-    CuentaComponent
+    CuentaComponent,
+    DinosComponent
     
   ],
   imports: [
