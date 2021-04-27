@@ -21,7 +21,7 @@ export class AnunciosComponent implements OnInit {
 
   ngOnInit(): void 
   {
-    this._anuncioService.listar().subscribe(
+    this._anuncioService.listar(0,0,new Anuncio()).subscribe(
       result=>{
         this.listaAnuncios=result.entidad;
       },

@@ -51,7 +51,7 @@ export class MenuComponent implements OnInit {
 
   actualizarUsuario()
   {
-    this._usuarioService.obtener(this.usuario.usuario).subscribe(
+    this._usuarioService.obtener(this.usuario).subscribe(
       result => 
       { 
         this.usuario = result;

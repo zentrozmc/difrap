@@ -20,9 +20,9 @@ export class LoginComponent implements OnInit {
     private _menuService:MenuService
   ) 
   {
-    this.inicioSesion = new Usuario(null,null,null,null,null,null,null);
-    this.registro = new Usuario(null,null,null,null,null,null,null);
-    this.olvido = new Usuario(null,null,null,null,null,null,null);
+    this.inicioSesion = new Usuario();
+    this.registro = new Usuario();
+    this.olvido = new Usuario();
   }
 
   ngDoCheck() 
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
       result=>
       {
         alert(result.descripcion);
-        this.registro = new Usuario(null,null,null,null,null,null,null);
+        this.registro = new Usuario();
       },
       error=>
       {
@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
       result=>
       {
         alert(result.descripcion);
-        this.olvido = new Usuario(null,null,null,null,null,null,null);
+        this.olvido = new Usuario();
       },
       error=>
       {

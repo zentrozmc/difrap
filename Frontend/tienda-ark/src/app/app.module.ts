@@ -17,6 +17,7 @@ import { CuentaComponent } from './componets/cuenta/cuenta.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DinosComponent } from './componets/dinos/dinos.component'; 
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +38,7 @@ import { DinosComponent } from './componets/dinos/dinos.component';
     AppRoutingModule,
     FormsModule,
     HttpModule,
+    HttpClientModule,
     CommonModule
   ],
   providers: [MenuService],

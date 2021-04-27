@@ -1,14 +1,22 @@
-export class Anuncio
+import { Entidad, IEntidad } from "./entidad";
+interface IAnuncio extends IEntidad
 {
-    constructor(
-        public idIncremental:any,
-        public url:any,
-        public fechaUltimoUso:any,
-        public fechaActivacion:any,
-        public valor:any,
-        public estado:any
-    )
+    url?:String,
+    fechaUltimoUso?:Date,
+    fechaActivacion?:Date,
+    valor?:Number,
+    estado?:Number
+}
+export class Anuncio extends Entidad
+{
+    public url:any=null;
+    public fechaUltimoUso:any=null;
+    public fechaActivacion:any=null;
+    public valor:any=null;
+    public estado:any=null;
+    constructor(entidad?:IAnuncio)
     {
-
+        super();
+        Object.assign(this, entidad);
     }
 }

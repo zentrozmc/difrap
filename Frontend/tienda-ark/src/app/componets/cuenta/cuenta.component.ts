@@ -15,7 +15,7 @@ export class CuentaComponent implements OnInit {
   constructor(
     private _usuarioService:UsuarioService
   ) { 
-    this.usuarioCP = new Usuario(null,null,null,null,null,null,null);
+    this.usuarioCP = new Usuario();
   }
 
   ngOnInit(): void 
@@ -59,7 +59,7 @@ export class CuentaComponent implements OnInit {
       result => 
       { 
         alert(result.descripcion);
-        this.usuarioCP = new Usuario(null,null,null,null,null,null,null);
+        this.usuarioCP = new Usuario();
       },
       error => 
       {

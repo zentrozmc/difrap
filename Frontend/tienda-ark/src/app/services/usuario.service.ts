@@ -1,64 +1,50 @@
-import {Injectable, Inject} from '@angular/core';
-import { Headers, Http, RequestOptions } from '@angular/http';
-import { map } from 'rxjs/operators';
-import 'rxjs/add/operator/map';
+import {Injectable} from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Usuario } from '../models/usuario';
 import { environment } from 'src/environments/environment';
+import { InterfazServicio } from './interfaz-servicio';
+import { Observable } from 'rxjs';
 
 @Injectable()
-export class UsuarioService
+export class UsuarioService extends InterfazServicio<Usuario>
 {
-
-    public url;
-    constructor(private _http: Http)
+    constructor(protected _http: HttpClient)
     {
+        super(_http);
         this.url=environment.api+"usuario";
     }
 
-    public requestOptions():RequestOptions
+   
+    login(estructura:Usuario):Observable<any>
     {
-        var token = sessionStorage.getItem("token");
-        let requestOptions:RequestOptions  = new RequestOptions(
-        { 
-            headers: new Headers
-            ({
-                'Content-Type': 'application/json',
-                'Authorization': token ? token : ""
-            })
-        });
-        return requestOptions;
-    }
-    login(estructura:Usuario)
-    {
-        return this._http.put(environment.api+"login",estructura);
+        let requestOptions = this.requestOptions();
+        requestOptions.observe="response";
+        return this._http.put(environment.api+"login",estructura,requestOptions);
     }
 
-    refresca_token()
+    refresca_token():Observable<any>
     {
-        return this._http.get(this.url+"/refrescar_token",this.requestOptions()).map(res=>res.json());
+        return this._http.get(this.url+"/refrescar_token",this.requestOptions());
     }
-    agregar(estructura:Usuario)
+    
+    obtener(estructura:Usuario):Observable<any>
     {
-        return this._http.post(this.url+"/agregar",estructura,this.requestOptions()).map(res=>res.json());
-    }
-
-    obtener(usuario:any)
-    {
-        return this._http.get(this.url+"/"+usuario,this.requestOptions()).map(res=>res.json());
+        return this._http.get(this.url+"/"+estructura.usuario,this.requestOptions());
     }
 
-    actualizarCuenta(usuario:any)
+    actualizarCuenta(usuario:Usuario):Observable<any>
     {
-        return this._http.put(this.url+"/actualizarCuenta",usuario,this.requestOptions()).map(res=>res.json());
+        return this._http.put(this.url+"/actualizarCuenta",usuario,this.requestOptions());
     }
 
-    recuperarPassword(usuario:any){
-        return this._http.put(this.url+"/recuperarPassword",usuario,this.requestOptions()).map(res=>res.json());
+    recuperarPassword(usuario:Usuario):Observable<any>
+    {
+        return this._http.put(this.url+"/recuperarPassword",usuario,this.requestOptions());
     }
 
-    actualizarPassword(usuario:any)
+    actualizarPassword(usuario:Usuario):Observable<any>
     {
-        return this._http.put(this.url+"/actualizarPassword",usuario,this.requestOptions()).map(res=>res.json());
+        return this._http.put(this.url+"/actualizarPassword",usuario,this.requestOptions());
     }
 
 }

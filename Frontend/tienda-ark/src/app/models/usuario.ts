@@ -1,15 +1,24 @@
-export class Usuario
+import { Entidad, IEntidad } from "./entidad";
+interface IUsuario extends IEntidad
 {
-    constructor(
-        public idIncremental:any,
-        public usuario:any,
-        public password:any,
-        public correo:any,
-        public steamId:any,
-        public arkId:any,
-        public puntos:any
-    )
+    usuario?:String,
+    password?:String,
+    correo?:String,
+    steamId?:String,
+    arkId?:String,
+    puntos?:Number
+}
+export class Usuario extends Entidad
+{
+    public usuario:any=null;
+    public password:any=null;
+    public correo:any=null;
+    public steamId:any=null;
+    public arkId:any=null;
+    public puntos:any=null;
+    constructor(entidad?:IUsuario)
     {
-
+        super();
+        Object.assign(this, entidad);
     }
 }

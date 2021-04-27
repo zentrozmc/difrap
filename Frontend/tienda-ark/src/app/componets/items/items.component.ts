@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Item } from 'src/app/models/item';
 import { ItemService } from 'src/app/services/item.service';
 import { MenuService } from 'src/app/services/menu.service';
 
@@ -32,7 +33,7 @@ export class ItemsComponent implements OnInit {
         let id = params['id'];
         if(id)
         {
-          this._itemService.listar(id).subscribe(
+          this._itemService.listar(0,0,new Item({tipo:id})).subscribe(
             result=>
             {
               this.listaItems=result.entidad;

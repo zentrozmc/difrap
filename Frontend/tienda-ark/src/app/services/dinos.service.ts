@@ -1,56 +1,21 @@
 import {Injectable, Inject} from '@angular/core';
-import { Headers, Http, RequestOptions } from '@angular/http';
-import { map } from 'rxjs/operators';
-import 'rxjs/add/operator/map';
-import { Item } from '../models/item';
+import {HttpClient,  } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { InterfazServicio } from './interfaz-servicio';
 import { Dino } from '../models/Dino';
+import { Observable } from 'rxjs';
 
 @Injectable()
-export class DinoService
+export class DinoService extends InterfazServicio<Dino>
 {
-
-    public url;
-    constructor(private _http: Http)
+    constructor(protected _http: HttpClient)
     {
+        super(_http);
         this.url=environment.api+"dino";
     }
-
-    public requestOptions():RequestOptions
+    
+    comprar(estructura:Dino):Observable<any>
     {
-        var token = sessionStorage.getItem("token");
-        let requestOptions:RequestOptions  = new RequestOptions(
-        { 
-            headers: new Headers
-            ({
-                'Content-Type': 'application/json',
-                'Authorization': token ? token : ""
-            })
-        });
-        return requestOptions;
-    }
-
-    agregar(estructura:Item)
-    {
-        return this._http.post(this.url+"/agregar",estructura,this.requestOptions()).map(res=>res.json());
-    }
-    obtener(id:any)
-    {
-        return this._http.get(this.url+"/"+id,this.requestOptions()).map(res=>res.json());
-    }
-
-    listar()
-    {
-        return this._http.get(this.url,this.requestOptions()).map(res=>res.json());
-    }
-
-    comprar(estructura:Dino)
-    {
-        return this._http.put(this.url+"/"+estructura.idIncremental+"/comprar",estructura,this.requestOptions()).map(res=>res.json());
-    }
-
-    inicializarDino()
-    {
-        return new Dino(null,null,null,null,null,null);
+        return this._http.put(this.url+"/"+estructura.idIncremental+"/comprar",estructura,this.requestOptions());
     }
 }

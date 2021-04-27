@@ -22,12 +22,12 @@ export class DinosComponent implements OnInit {
   ) 
   {
     this.listaDinos=[];
-    this.dino = this._dinosService.inicializarDino();
+    this.dino = new Dino();
 
   }
 
   ngOnInit(): void {
-    this._dinosService.listar().subscribe(
+    this._dinosService.listar(0,0,new Dino()).subscribe(
       result=>
       {
         this.listaDinos=result.entidad;
