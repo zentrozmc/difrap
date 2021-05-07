@@ -2,7 +2,7 @@ import {Injectable, Inject} from '@angular/core';
 import {HttpClient,  } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { InterfazServicio } from './interfaz-servicio';
-import { Dino } from '../models/Dino';
+import { Dino } from '../models/dino';
 import { Observable } from 'rxjs';
 
 @Injectable()
