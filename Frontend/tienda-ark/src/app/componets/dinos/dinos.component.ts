@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
 import { DinoService} from '../../services/dinos.service';
-import { Dino } from 'src/app/models/Dino';
+import { Dino } from '../../models/Dino';
 
 @Component({
   selector: 'app-dinos',
