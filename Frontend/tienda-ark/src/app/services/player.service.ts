@@ -1,22 +1,21 @@
-import {Injectable, Inject} from '@angular/core';
-import { Headers, Http, RequestOptions } from '@angular/http';
-import { map } from 'rxjs/operators';
-import 'rxjs/add/operator/map';
+import {Injectable} from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class PlayerService
 {
 
     public url;
-    constructor(private _http: Http)
+    constructor(private _http: HttpClient)
     {
         this.url=environment.api+"player";
     }
 
-    listar()
+    listar():Observable<any>
     {
-        return this._http.get(this.url).map(res=>res.json());
+        return this._http.get(this.url);
     }
 
 }

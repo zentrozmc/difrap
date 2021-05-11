@@ -1,5 +1,5 @@
 {
-  "name": "tienda-ark",
+  "name": "@zentroz/tienda-ark",
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "~11.0.3",
     "@angular/common": "~11.0.3",
@@ -51,5 +51,11 @@
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~4.0.2"
-  }
+  },
+  "publishConfig": {
+    "registry": "http://192.168.0.31:8081/repository/npm-public/"
+  },
+  "files": [
+    "dist/*"
+  ]
 }

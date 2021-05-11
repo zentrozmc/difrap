@@ -1,7 +1,5 @@
 import {Injectable, Inject} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import 'rxjs/add/operator/map';
 import { Item } from '../models/item';
 import { environment } from 'src/environments/environment';
 import { InterfazServicio } from './interfaz-servicio';
