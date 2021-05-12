@@ -120,8 +120,7 @@ export class MenuComponent implements OnInit {
       },
       error=>
       {
-        let obj = JSON.parse(error._body);
-        alert(obj.descripcion);
+        alert(error.error.descripcion);
       }
     );
   }
