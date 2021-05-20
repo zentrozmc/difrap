@@ -12,6 +12,7 @@ import { MenuService } from 'src/app/services/menu.service';
 })
 export class ItemsComponent implements OnInit {
 
+  public buscarItem:Item;
   public listaItems:any;
   public usuario:any;
   constructor(
@@ -20,29 +21,20 @@ export class ItemsComponent implements OnInit {
     private _menuService:MenuService
   ) 
   {
-
+    this.buscarItem=new Item();
   }
 
   ngOnInit(): void 
   {
-
-
     this._route.params.forEach(
       (params:Params) => 
       {
         let id = params['id'];
         if(id)
         {
-          this._itemService.listar(0,0,new Item({tipo:id})).subscribe(
-            result=>
-            {
-              this.listaItems=result.entidad;
-            },
-            error=>{
-              alert("ha ocurrido un error al listar items intenta mas tarde");
-              console.log(error);
-            }
-          );
+          this.buscarItem=new Item();
+          this.buscarItem.tipo=id;
+          this.buscar();
         }
         else
         {
@@ -52,6 +44,19 @@ export class ItemsComponent implements OnInit {
       });
 
     
+  }
+  buscar()
+  {
+    this._itemService.listar(0,0,this.buscarItem).subscribe(
+      result=>
+      {
+        this.listaItems=result.entidad;
+      },
+      error=>{
+        alert("ha ocurrido un error al listar items intenta mas tarde");
+        console.log(error);
+      }
+    );
   }
   ngDoCheck() 
   {    

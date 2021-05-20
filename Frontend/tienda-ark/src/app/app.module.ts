@@ -17,7 +17,9 @@ import { CuentaComponent } from './componets/cuenta/cuenta.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DinosComponent } from './componets/dinos/dinos.component'; 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { InterceptorService } from './services/interceptor-service';
+import { ConsolaComponent } from './componets/consola/consola.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +30,8 @@ import { HttpClientModule } from '@angular/common/http';
     VerSteamIdComponent,
     CobrarAnuncioComponent,
     CuentaComponent,
-    DinosComponent
+    DinosComponent,
+    ConsolaComponent
     
   ],
   imports: [
@@ -41,7 +44,10 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     CommonModule
   ],
-  providers: [MenuService],
+  providers: [
+    MenuService,
+    {provide:HTTP_INTERCEPTORS, useClass: InterceptorService,multi:true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

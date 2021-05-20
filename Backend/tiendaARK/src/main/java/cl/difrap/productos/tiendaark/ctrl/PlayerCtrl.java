@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ import cl.difrap.productos.tiendaark.util.RconArk;
 @RestController
 @RequestMapping("/player")
 public class PlayerCtrl {
-	
+	private static final Logger LOG = Logger.getLogger(PlayerCtrl.class);
 	@GetMapping(value = "")
 	public ResponseEntity<HashMap<String,Object>> listarPlayers()
 	{
@@ -43,6 +44,7 @@ public class PlayerCtrl {
 			retorno.put("resultado",players);
 			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.OK);
 		} catch (IOException | AutenticacionExcepcion e) {
+			LOG.error("Error al listar Players",e);
 			retorno.put("estado", false);
 			retorno.put("codigo", Constantes.RETORNO_API.NO_OK);
 			retorno.put("descripcion", Constantes.RETORNO_API.NO_OK.getDescripcion());

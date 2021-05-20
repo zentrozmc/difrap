@@ -9,6 +9,17 @@
   </div>
     <div class="row" >
         <div class="col-12">
+          <br/>
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Buscar dino..." [(ngModel)]="buscarDino.nombre" (keyup.enter)="buscar()">
+            <div class="input-group-append">
+              <button class="btn btn-secondary" type="button" (click)="buscar()">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </div>
+          <br/>
+          <div class="table-responsive">
             <table class="table table-image" >
               <thead>
                 <tr>
@@ -33,6 +44,7 @@
                 </tr>
               </tbody>
             </table>   
+          </div>
         </div>
     </div>
 </div>

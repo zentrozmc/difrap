@@ -6,7 +6,9 @@ interface IUsuario extends IEntidad
     correo?:String,
     steamId?:String,
     arkId?:String,
-    puntos?:Number
+    puntos?:Number,
+    poder?:Number,
+    comando?:String
 }
 export class Usuario extends Entidad
 {
@@ -16,6 +18,8 @@ export class Usuario extends Entidad
     public steamId:any=null;
     public arkId:any=null;
     public puntos:any=null;
+    public poder:any=null;
+    public comando:any=null;
     constructor(entidad?:IUsuario)
     {
         super();

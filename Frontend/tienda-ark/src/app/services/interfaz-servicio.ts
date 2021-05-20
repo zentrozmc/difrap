@@ -71,7 +71,8 @@ export abstract class InterfazServicio<P extends Entidad>
             var map = new Map(Object.entries(estructura));
             Object.keys(estructura).forEach(key => 
             {
-                search.append(key,map.get(key));
+                if(map.get(key))
+                    search=search.append(key,map.get(key));
             }); 
         }
         requestOptions.params = search;

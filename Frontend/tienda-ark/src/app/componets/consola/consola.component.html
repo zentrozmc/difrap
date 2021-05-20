@@ -1,0 +1,16 @@
+<div  class="container" *ngIf="usuario.poder==1">
+    <form role="form" #consolaForm="ngForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="comando">Comando</label>
+            <div class="input-group">
+                <input type="text" class="form-control" name="comando" placeholder="Ingresa el comando" [(ngModel)]="usuario.comando">
+                <div class="input-group-append">
+                <button class="btn btn-secondary" type="submit">
+                    <i class="bi bi-search"></i>
+                </button>
+                </div>
+            </div>
+            <small id="comandoHelp" class="form-text text-muted">Ejecuta el comando desde aqui</small>
+        </div>
+    </form>
+</div>

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Item } from 'src/app/models/item';
 import { ItemService } from 'src/app/services/item.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+declare var $:any;
 
 @Component({
   selector: 'app-menu',
@@ -22,6 +23,11 @@ export class MenuComponent implements OnInit {
   { 
   }
 
+  ngAfterViewChecked()
+  {
+    $('[data-toggle="popover"]').popover();
+  }
+  
   crearIntervalo()
   {
     if(!this.idIntervalo)

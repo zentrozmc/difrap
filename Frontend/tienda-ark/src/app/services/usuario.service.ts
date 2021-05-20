@@ -15,6 +15,11 @@ export class UsuarioService extends InterfazServicio<Usuario>
     }
 
    
+    consola(estructura:Usuario):Observable<any>
+    {
+        return this._http.post(this.url+"/consola",estructura,this.requestOptions());
+    }
+
     login(estructura:Usuario):Observable<any>
     {
         let requestOptions = this.requestOptions();

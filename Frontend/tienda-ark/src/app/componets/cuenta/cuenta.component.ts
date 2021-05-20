@@ -21,7 +21,7 @@ export class CuentaComponent implements OnInit {
   ngOnInit(): void 
   {
     this.usuario = JSON.parse(sessionStorage.getItem('usuario')!);
-    this._usuarioService.obtener(this.usuario.usuario).subscribe(
+    this._usuarioService.obtener(this.usuario).subscribe(
       result => 
       { 
         this.usuario = result;

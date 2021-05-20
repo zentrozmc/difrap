@@ -1,5 +1,5 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">MichiSaurios</a>
+    <a class="navbar-brand" href="#" data-toggle="popover" data-trigger="focus" data-html="true" title="Tienda ARK" data-content="¿Te gustaria tener esta tienda en tu servidor?, contactate conmigo en discord <b>Zentroz#3087</b>">MichiSaurios</a>
     <a href="https://discord.gg/G4pQ5Wz" rel="nofollow" target="_blank">
         <img src="https://discord.com/api/guilds/726160117242003477/embed.png" />
     </a>
@@ -36,6 +36,7 @@
         </li>
         <a class="nav-item nav-link" [routerLink]="['dinos']">Dinos</a>
         <a class="nav-item nav-link" [routerLink]="['cuenta']">Mi Cuenta</a>
+        <a class="nav-item nav-link" [routerLink]="['consola']" *ngIf="usuario.poder==1">Administrador</a>
         <!--a class="nav-item nav-link disabled" href="#">Disabled</a-->
         <button type="button" class="btn btn-primary" (click)="gacha()">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gift-fill" viewBox="0 0 16 16">

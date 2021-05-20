@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.mail.MessagingException;
@@ -20,6 +21,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -32,6 +34,8 @@ import cl.difrap.productos.tiendaark.dao.UsuarioDao;
 import cl.difrap.productos.tiendaark.dto.Usuario;
 import cl.difrap.productos.tiendaark.util.Constantes;
 import cl.difrap.productos.tiendaark.util.JwtUtil;
+import cl.difrap.productos.tiendaark.util.RconArk;
+import cl.difrap.productos.tiendaark.util.Constantes.RETORNO_API;
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioCtrl extends Controlador<UsuarioDao,Usuario>
@@ -58,7 +62,6 @@ public class UsuarioCtrl extends Controlador<UsuarioDao,Usuario>
 		{
 			
 			entidad.setPassword(encriptarPassword(entidad.getPassword()));
-			entidad.setPuntos(0L);
 			List<Usuario> listaU = dao.listar(entidad);
 			for(Usuario u:listaU) 
 			{
@@ -70,6 +73,8 @@ public class UsuarioCtrl extends Controlador<UsuarioDao,Usuario>
 					return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 			}
+			entidad.setPuntos(0L);
+			entidad.setPoder(0);
 			Usuario u = dao.obtener(entidad);
 			if(u==null || u.getIdIncremental()==null)
 			{
@@ -239,6 +244,67 @@ public class UsuarioCtrl extends Controlador<UsuarioDao,Usuario>
 		return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.OK);
 		
 	}
+	@PostMapping("/consola")
+	public ResponseEntity<HashMap<String,Object>> consola(@RequestBody Usuario entidad)
+	{
+		HashMap<String,Object> retorno = new HashMap<>();
+		try 
+		{
+			Usuario real = dao.obtener(entidad);
+			if(real.getPoder()!=1)
+			{
+				retorno.put("estado", true);
+				retorno.put("codigo", Constantes.RETORNO_API.NO_AUTORIZADO);
+				retorno.put("descripcion", Constantes.RETORNO_API.NO_AUTORIZADO.getDescripcion());
+				return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.UNAUTHORIZED);
+			}
+			String comando=entidad.getComando();			
+			RETORNO_API resultadoCmd = ejecutarComando(comando,real);
+			retorno.put("codigo", resultadoCmd);
+			retorno.put("descripcion", resultadoCmd.getDescripcion());
+			if(resultadoCmd==Constantes.RETORNO_API.OK)
+			{
+				retorno.put("estado", true);
+				return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.OK);
+			}
+			else
+			{
+				retorno.put("estado", false);
+				return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.CONFLICT);
+			}
+			
+		}catch (Exception e) {
+			LOG.error("error consola",e);
+			retorno.put("estado", false);
+			retorno.put("codigo", Constantes.RETORNO_API.NO_OK);
+			retorno.put("descripcion", Constantes.RETORNO_API.NO_OK.getDescripcion());
+			return new ResponseEntity<HashMap<String,Object>>(retorno,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	
+	private RETORNO_API ejecutarComando(String comando, Usuario u) 
+	{
+		try 
+		{
+			RconArk rcon = new RconArk();
+			Map<String,String> jugadoresConectados = rcon.listarJugadores();
+			if(jugadoresConectados.containsKey(u.getSteamId()))
+			{
+				if(rcon.ejecutarComando(comando))
+					return Constantes.RETORNO_API.OK;
+				else
+					return Constantes.RETORNO_API.NO_OK;
+			}
+			else
+				return Constantes.RETORNO_API.JUGADOR_NO_CONECTADO;
+			
+		} catch (Exception e) 
+		{
+			LOG.error("Ha Ocurrido un error al ejecutar comando",e);
+			return Constantes.RETORNO_API.NO_OK;
+		}
+	}
 	
 	private String encriptarPassword(String pass) throws NoSuchAlgorithmException 
 	{
@@ -269,7 +335,7 @@ public class UsuarioCtrl extends Controlador<UsuarioDao,Usuario>
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, false, "utf-8");
         helper.setTo(u.getCorreo());
-        message.setFrom("no-reply@michisaurios.cl");
+        message.setFrom("no-reply@michisaurios.ddns.net");
         helper.setSubject("Recuperacion de contraseña");   
         message.setContent(contenido, "text/html");
         mailSender.send(message);

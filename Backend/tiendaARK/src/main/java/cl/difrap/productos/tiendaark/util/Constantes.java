@@ -22,7 +22,8 @@ public class Constantes
 		ANUNCIO_COBRADO("El anuncio ya fue cobrado hoy"),
 		ANUNCIO_TIEMPO_ESPERA("Ha intentado cobrar el anuncio muy pronto, intente mas tarde"),
 		TOKEN_INVALIDO("El token es invalido"),
-		GACHA_UTILIZADO("Ya haz realizado tu tirada por hoy")
+		GACHA_UTILIZADO("Ya haz realizado tu tirada por hoy"),
+		NO_AUTORIZADO("Usted no tiene autorizacion para realizar esta peticion")
 		;
 
 		private String descripcion;

@@ -13,6 +13,7 @@ import { Dino } from '../../models/dino';
 export class DinosComponent implements OnInit {
 
   public dino:Dino;
+  public buscarDino:Dino;
   public usuario:any;
   public listaDinos:Array<Dino>;
   constructor(
@@ -23,11 +24,18 @@ export class DinosComponent implements OnInit {
   {
     this.listaDinos=[];
     this.dino = new Dino();
+    this.buscarDino= new Dino();
 
   }
 
   ngOnInit(): void {
-    this._dinosService.listar(0,0,new Dino()).subscribe(
+    this.buscar();
+  }
+
+  buscar()
+  {
+    console.log(this.buscarDino)
+    this._dinosService.listar(0,0,this.buscarDino).subscribe(
       result=>
       {
         this.listaDinos=result.entidad;

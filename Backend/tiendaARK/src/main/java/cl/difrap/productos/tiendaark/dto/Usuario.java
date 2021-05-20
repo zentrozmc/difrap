@@ -13,6 +13,8 @@ public class Usuario extends Entidad
 	private String arkId;
 	private Long puntos;
 	private Date fechaGacha;
+	private Integer poder;
+	private String comando;
 	public Usuario() {
 		super(null);
 	}
@@ -58,10 +60,22 @@ public class Usuario extends Entidad
 	public void setFechaGacha(Date fechaGacha) {
 		this.fechaGacha = fechaGacha;
 	}
+	public Integer getPoder() {
+		return poder;
+	}
+	public void setPoder(Integer poder) {
+		this.poder = poder;
+	}
+	public String getComando() {
+		return comando;
+	}
+	public void setComando(String comando) {
+		this.comando = comando;
+	}
 	@Override
 	public String toString() {
 		return "Usuario [usuario=" + usuario + ", password=" + password + ", correo=" + correo + ", steamId=" + steamId
-				+ ", arkId=" + arkId + ", puntos=" + puntos + "]";
+				+ ", arkId=" + arkId + ", puntos=" + puntos + ", fechaGacha=" + fechaGacha + ", poder=" + poder + "]";
 	}
 	
 	

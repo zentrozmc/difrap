@@ -12,6 +12,7 @@
 		<result column="CORREO"          property="correo"     javaType="String" />
 		<result column="PUNTOS"          property="puntos"     javaType="Long" />
 		<result column="FECHA_GACHA"          property="fechaGacha"     javaType="Date" />
+		<result column="PODER"          property="poder"     javaType="Integer" />
 	</resultMap>
 
 	<select id="selectUsuario" resultMap="Usuario">
@@ -54,7 +55,8 @@
 	     	ARK_ID,
 	     	CORREO,
 	     	PUNTOS,
-	     	FECHA_GACHA
+	     	FECHA_GACHA,
+	     	PODER
 	     )
 	     VALUES
 	     (
@@ -64,7 +66,8 @@
 	     	#{arkId},
 	     	#{correo},
 	     	#{puntos},
-	     	#{fechaGacha}
+	     	#{fechaGacha},
+	     	#{poder}
 	     )
     </insert>
     
