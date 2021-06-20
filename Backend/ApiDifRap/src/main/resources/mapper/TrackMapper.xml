@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="cl.difrap.apirest.mapper.Track">
+
+	<resultMap id="Track" type="Track">
+		<result column="id_track" property="idIncremental" javaType="Long"/>
+		<result column="id_album" property="idAlbum" javaType="Long"/>	
+		<result column="nombre" property="nombre" javaType="String"/>
+		<result column="duracion" property="duracion" javaType="String"/>	
+		<result column="drive" property="drive" javaType="String"/>
+	</resultMap>
+
+	<insert id="insertTrack" parameterType="Track" useGeneratedKeys="true" keyProperty="idIncremental" keyColumn="id_Track">
+	 
+	</insert>
+	
+	<update id="updateTrack" parameterType="Track">
+	</update>
+	
+	<delete id="deleteTrack" parameterType="Track">
+	</delete>
+	
+    <select id="selectTrack" resultMap="Track">  
+    	SELECT  * FROM tracks 
+		    <where>
+		      	<if test = "idAlbum != null ">
+		        	and id_album = #{idAlbum}
+		      	</if>
+	  		</where>	
+	  	ORDER BY id_track 
+		<if test = "paginacion != null ">
+			LIMIT #{paginacion.desplazar}, #{paginacion.numreg}
+		</if>
+		
+    </select>
+    
+    <select id="getTrack" resultMap="Track">  
+		select * from tracks where id_track = #{idIncremental}
+    </select>
+    
+    <select id="totTrack" resultType="java.lang.Long">
+    	SELECT COUNT(1) as cantidad FROM tracks
+    	<where>
+      		<if test = "idAlbum != null ">
+	        	and id_album = #{idAlbum}
+	      	</if>
+  		</where>	
+    </select>
+    
+</mapper>

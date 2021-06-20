@@ -5,7 +5,7 @@
 
 	<groupId>cl.difrap.apirest</groupId>
 	<artifactId>ApiDifRap</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.3</version>
 	<packaging>war</packaging>
 
 	<name>ApiDifRap</name>
@@ -107,6 +107,27 @@
 		    </exclusions>
 		</dependency>
 		
+		<dependency>
+		    <groupId>com.google.apis</groupId>
+		    <artifactId>google-api-services-drive</artifactId>
+		    <version>v3-rev105-1.23.0</version>
+		</dependency>
+		 
+		 
+		<!-- https://mvnrepository.com/artifact/com.google.api-client/google-api-client -->
+		<dependency>
+		    <groupId>com.google.api-client</groupId>
+		    <artifactId>google-api-client</artifactId>
+		    <version>1.23.0</version>
+		</dependency>
+		 
+		<!-- https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client-jetty -->
+		<dependency>
+		    <groupId>com.google.oauth-client</groupId>
+		    <artifactId>google-oauth-client-jetty</artifactId>
+		    <version>1.23.0</version>
+		</dependency>
+				
 	</dependencies>
 
 	<build>

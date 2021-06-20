@@ -22,5 +22,10 @@ public class EnviarDisco
 	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
+
+	@Override
+	public String toString() {
+		return "EnviarDisco [album=" + album + ", correo=" + correo + "]";
+	}
 	
 }

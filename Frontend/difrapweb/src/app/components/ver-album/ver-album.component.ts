@@ -1,24 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Album } from 'src/app/models/album';
 import { AlbumService } from 'src/app/services/album.service';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
+import { TrackService } from 'src/app/services/track.service';
+import { combineLatest } from 'rxjs';
+import { Track } from 'src/app/models/track';
+import { ReproductorComponent } from '../reproductor/reproductor.component';
+import { cpuUsage } from 'process';
 
 
 @Component({
   selector: 'app-ver-album',
   templateUrl: './ver-album.component.html',
   styleUrls: ['./ver-album.component.css'],
-  providers: [AlbumService]
+  providers: [AlbumService,TrackService]
 })
 export class VerAlbumComponent implements OnInit {
 
+  @ViewChild("reproductor",null) reproductor:ReproductorComponent;
   public filtro:any;
   public album:Album;
+  public listaTracks:Array<Track>=[];
   constructor(
     private _router: Router,
     private _route:ActivatedRoute,
     private _albumService:AlbumService,
+    private _trackService:TrackService,
     private _sanitizer: DomSanitizer
 
   ) 
@@ -39,26 +47,34 @@ export class VerAlbumComponent implements OnInit {
 
   ngOnInit() 
   {
-    this._route.params.forEach(
-      (params:Params) => 
-      {
-        this.album.idIncremental = params['id'];
-        this._albumService.obtener(this.album).subscribe(
-          (result:Album)=>
+    combineLatest(
+      this._route.params,
+      this._route.queryParams,
+    ).subscribe(
+      results=>{
+        this.album.idIncremental = results[0]['id'];
+        this.filtro = results[1];
+        combineLatest(
+          this._albumService.obtener(this.album),
+          this._trackService.listar(0,new Track({idAlbum:this.album.idIncremental}))
+        )
+        .subscribe(
+          resultados=>
           {
-            this.album = result;
+            this.album = resultados[0] as Album;
+            this.listaTracks = resultados[1].entidad;
           },
           error=>{
             console.log(error);
           }
         )
-      });
-
-      this._route.queryParams
-      .subscribe(params => 
-      {
-        this.filtro = params;
-      });
+      },
+      error=>{}
+    );
   }
 
+  play(id)
+  {
+    this.reproductor.cambiarTrack(id);
+  }
 }

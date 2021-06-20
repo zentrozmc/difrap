@@ -21,7 +21,7 @@
             "aot": false,
             "assets": [
               "src/favicon.ico",
-              "src/assets"              
+              "src/assets"
             ],
             "styles": [
               "src/styles.css",
@@ -124,6 +124,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "difrapweb"
+    }
+  },
+  "defaultProject": "difrapweb",
+  "cli": {
+    "analytics": "8e449708-f33a-416b-b1f9-18941164e5c6"
+  }
 }

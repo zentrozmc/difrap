@@ -13,6 +13,7 @@
 		<result column="anho" property="anho" javaType="Long"/>	
 		<result column="link" property="link" javaType="String"/>	
 		<result column="youtube" property="youtube" javaType="String"/>	
+		<result column="drive" property="drive" javaType="String"/>	
 	</resultMap>
 
 	<insert id="insertAlbum" parameterType="Album" useGeneratedKeys="true" keyProperty="idIncremental" keyColumn="id_album">

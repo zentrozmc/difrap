@@ -1,0 +1,28 @@
+
+<ul class="pagination">
+<li class="page-item" [class.disabled] ="objeto.pagina ==1">
+    <a class="page-link"  href="javascript:void(0);" (click)="paginar(1)">Primera</a>
+</li>
+<li class="page-item" [class.disabled] ="objeto.pagina ==1">
+    <span class="page-link" (click)="paginar((objeto.pagina-1))"><</span>
+</li>
+
+<ng-container *ngFor="let pag of objeto.totalPaginas; let i = index">
+    <ng-container *ngIf="agregarIzquierda() <= (i+1) && (i+1) <= agregarDerecha()">
+    <li class="page-item active" *ngIf="objeto.pagina==(i+1)">
+        <a class="page-link" href="javascript:void(0);" (click)="paginar((i+1))">{{(i+1)}}</a>
+    </li>
+    <li class="page-item" *ngIf="objeto.pagina!=(i+1)">
+        <a class="page-link" href="javascript:void(0);" (click)="paginar((i+1))">{{(i+1)}}</a>
+    </li>
+    </ng-container>
+</ng-container>
+
+<li class="page-item"  [class.disabled] ="objeto.pagina ==objeto.totalPaginas.length">
+    <a class="page-link" href="javascript:void(0);" (click)="paginar((objeto.pagina+1))">></a>
+</li>
+<li class="page-item" [class.disabled] ="objeto.pagina ==objeto.totalPaginas.length">
+    <a class="page-link" href="javascript:void(0);" (click)="paginar(objeto.totalPaginas.length)">Última</a>
+</li>
+</ul>
+

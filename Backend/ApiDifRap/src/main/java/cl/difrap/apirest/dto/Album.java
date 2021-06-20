@@ -9,6 +9,14 @@ public class Album extends Entidad
 	private Long anho;
 	private String link;
 	private String youtube;
+	private String drive;
+	public String getDrive() {
+		return drive;
+	}
+
+	public void setDrive(String drive) {
+		this.drive = drive;
+	}
 
 	public Album(Long idIncremental) {
 		super(idIncremental);
@@ -57,6 +65,12 @@ public class Album extends Entidad
 
 	public void setYoutube(String youtube) {
 		this.youtube = youtube;
+	}
+
+	@Override
+	public String toString() {
+		return "Album [album=" + album + ", artista=" + artista + ", anho=" + anho + ", link=" + link + ", youtube="
+				+ youtube + ", drive=" + drive + "]";
 	}
 	
 	

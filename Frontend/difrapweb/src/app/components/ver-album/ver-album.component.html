@@ -1,7 +1,23 @@
 <title>Albumes</title>
 <div class="container">
 	<div class="panel-body">
-		<div class="table-responsive"> 
+
+		<div class="card text-center">
+			
+			<div class="card-body">
+				<img src="http://difrap.cl:8080/apiDifRap/track/play/{{album.drive}}" class="card-img-top" style="width: 20rem;" alt="...">
+				<app-reproductor #reproductor></app-reproductor>
+			</div>
+			<ul class="list-group list-group-flush">
+			  <li class="list-group-item" *ngFor="let t of listaTracks" (click)="play(t.drive)">{{t.nombre}}</li>
+			</ul>
+			<div class="card-body">
+				<a href="{{album.link}}" target="_blank">
+					<img src="/assets/mediafire.jpg" width="300" />
+				</a>
+			</div>
+		  </div>
+		<!--div class="table-responsive"> 
 			<div class="table-container" >
 				<table class="table table-striped" >
 					<thead class="thead-dark">
@@ -15,17 +31,20 @@
                         </tr>
                         <tr align="center">
                             <td>
-                                <a href="{{album.link}}" target="_blank">
-                                    <img src="/assets/mediafire.jpg" width="300" />
-                                </a>
+                               
                             </td>
                         </tr>
 					</tbody>
 				</table>
             </div>
-            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 actions-container">
-                <input type="button" value="Volver" class="btn btn-secondary" [routerLink]="['..']" [queryParams]="filtro" />
-            </div>
-		</div>  
+            
+		</div-->  
+		<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 actions-container">
+			<input type="button" value="Volver" class="btn btn-secondary" [routerLink]="['..']" [queryParams]="filtro" />
+		</div>
 	</div>
 </div>
+
+
+
+

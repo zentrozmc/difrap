@@ -54,29 +54,7 @@
 						<tr>
 							<td colspan="5">
 								<nav aria-label="Page navigation example">
-									<ul class="pagination">
-										<li class="page-item" *ngIf="pagina!=1">
-											<a class="page-link" href="javascript:void(0);" (click)="paginar((pagina-1))" aria-label="Previous">
-												<span aria-hidden="true">&laquo;</span>
-												<span class="sr-only">Anterior</span>
-											</a>
-                                        </li>
-                                        <ng-container *ngFor="let pag of totalPaginas; let i = index">
-                                            <li class="page-item active" *ngIf="pagina==(i+1)">
-                                                <a class="page-link" href="javascript:void(0);" (click)="paginar((i+1))">{{(i+1)}}</a>
-                                            </li>
-                                            <li class="page-item" *ngIf="pagina!=(i+1)">
-                                                <a class="page-link" href="javascript:void(0);" (click)="paginar((i+1))">{{(i+1)}}</a>
-                                            </li>
-                                        </ng-container>
-										
-										<li class="page-item" *ngIf="totalPaginas.length != pagina">
-											<a class="page-link" href="javascript:void(0);" (click)="paginar((pagina+1))" aria-label="Next">
-												<span aria-hidden="true">&raquo;</span>
-												<span class="sr-only">Siguiente</span>
-											</a>
-										</li>
-									</ul>
+									<app-paginador [objeto]="this"></app-paginador>
 								</nav>
 							</td>
 						</tr>

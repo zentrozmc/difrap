@@ -28,5 +28,6 @@
     </typeAliases>
     <mappers>
     	<mapper resource="mapper/AlbumMapper.xml"/>
+    	<mapper resource="mapper/TrackMapper.xml"/>
     </mappers>
 </configuration>
