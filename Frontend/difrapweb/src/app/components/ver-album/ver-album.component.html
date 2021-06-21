@@ -6,10 +6,10 @@
 			
 			<div class="card-body">
 				<img src="http://difrap.cl:8080/apiDifRap/track/play/{{album.drive}}" class="card-img-top" style="width: 20rem;" alt="...">
-				<app-reproductor #reproductor></app-reproductor>
+				<app-reproductor #reproductor [listaTrack]="listaTracks"></app-reproductor>
 			</div>
 			<ul class="list-group list-group-flush">
-			  <li class="list-group-item" *ngFor="let t of listaTracks" (click)="play(t.drive)">{{t.nombre}}</li>
+			  <li class="list-group-item" *ngFor="let t of listaTracks; let i =index" (click)="play(i)">{{t.nombre}}</li>
 			</ul>
 			<div class="card-body">
 				<a href="{{album.link}}" target="_blank">
