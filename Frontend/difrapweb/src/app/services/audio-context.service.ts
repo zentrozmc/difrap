@@ -2,18 +2,20 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 
 @Injectable()
-export class AudioService {
+export class AudioContexService {
 
-    public audio: HTMLAudioElement;
+    public audio: AudioContext;
+    public audioBuffer:AudioBuffer;
+    public audioBufferSource:AudioBufferSourceNode;
     public timeElapsed: BehaviorSubject<string> = new BehaviorSubject('00:00');
     public timeRemaining: BehaviorSubject<string> = new BehaviorSubject('-00:00');
     public percentElapsed: BehaviorSubject<number> = new BehaviorSubject(0);
     public percentLoaded: BehaviorSubject<number> = new BehaviorSubject(0);
     public playerStatus: BehaviorSubject<string> = new BehaviorSubject('paused');
-    public duracion: BehaviorSubject<number> = new BehaviorSubject(0);
 
     constructor() {
-        this.audio = new Audio();
+        this.audio = new AudioContext();
+        this.audioBuffer = new AudioBuffer({length:0,sampleRate:1});
         this.attachListeners();
     }
 
@@ -26,31 +28,23 @@ export class AudioService {
         this.audio.addEventListener('ended', this.setPlayerStatus, false);
     }
 
-    private setDuracion(ct: number): void {
-        this.duracion.next(ct);
-    }
-
-    public getDuracion(): Observable<number> {
-        return this.duracion.asObservable();
-    }
     private calculateTime = (evt) => {
         let ct = this.audio.currentTime;
-        let d = this.audio.duration;
-        this.setDuracion(ct);
+        let d = this.audioBuffer.duration;
         this.setTimeElapsed(ct);
         this.setPercentElapsed(d, ct);
         this.setTimeRemaining(d, ct);
     }
 
     private calculatePercentLoaded = (evt) => {
-        if (this.audio.duration > 0) {
-            for (var i = 0; i < this.audio.buffered.length; i++) {
+        if (this.audioBuffer.duration > 0) {
+            /*for (var i = 0; i < this.audioBuffer.buffered.length; i++) {
                 if (this.audio.buffered.start(this.audio.buffered.length - 1 - i) < this.audio.currentTime) {
                     let percent = (this.audio.buffered.end(this.audio.buffered.length - 1 - i) / this.audio.duration) * 100;
                     this.setPercentLoaded(percent)
                     break;
                 }
-            }
+            }*/
         }
     }
 
@@ -77,7 +71,7 @@ export class AudioService {
     /**
      * If you need the audio instance in your component for some reason, use this.
      */
-    public getAudio(): HTMLAudioElement {
+    public getAudio(): AudioContext {
         return this.audio;
     }
 
@@ -85,8 +79,12 @@ export class AudioService {
      * This is typically a URL to an MP3 file
      * @param src 
      */
-    public setAudio(src: string): void {
-        this.audio.src = src;
+    public async setAudio(src: ArrayBuffer): Promise<void> {
+
+        this.audioBuffer = await this.audio.decodeAudioData(src);
+        this.audioBufferSource = this.audio.createBufferSource();
+        this.audioBufferSource.buffer = this.audioBuffer;
+        this.audioBufferSource.connect(this.audio.destination);
         this.playAudio();
     }
 
@@ -94,14 +92,14 @@ export class AudioService {
      * The method to play audio
      */
     public playAudio(): void {
-        this.audio.play();
+        this.audioBufferSource.start();
     }
 
     /**
      * The method to pause audio
      */
     public pauseAudio(): void {
-        this.audio.pause();
+        this.audioBufferSource.stop();
     }
 
     /**
@@ -109,7 +107,7 @@ export class AudioService {
      * @param position 
      */
     public seekAudio(position: number): void {
-        this.audio.currentTime = position;
+        //this.audio.currentTime = position;
     }
 
     /**
@@ -214,6 +212,6 @@ export class AudioService {
      * Convenience method to toggle the audio between playing and paused
      */
     public toggleAudio(): void {
-        (this.audio.paused) ? this.audio.play() : this.audio.pause();
+       // (this.audioBufferSource.paused) ? this.audio.play() : this.audio.pause();
     }
 }

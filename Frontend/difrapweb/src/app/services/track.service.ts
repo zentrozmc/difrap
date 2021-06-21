@@ -34,4 +34,9 @@ export class TrackService
         cabeceras = cabeceras.set('Content-Type','application/json');
         return this._http.get(this.url+"/"+album.idIncremental,{headers: cabeceras});
     }
+
+    play(drive):Observable<any>
+    {
+        return this._http.get(this.url + "/play/" + drive,{responseType: 'arraybuffer'});
+    }
 }
