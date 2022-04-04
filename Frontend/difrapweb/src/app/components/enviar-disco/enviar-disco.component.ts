@@ -15,7 +15,7 @@ export class EnviarDiscoComponent implements OnInit {
   constructor(
     private _enviarDiscoService:EnviarDiscoService
   ) {
-    let album = new Album(null,null,null,null,null,null);
+    let album = new Album();
     this.disco = new EnviarDisco(album,null);
    }
 
@@ -31,7 +31,7 @@ export class EnviarDiscoComponent implements OnInit {
         else
           alert("Ha ocurrido un error al enviar el mensaje, intentelo mas tarde");
           
-        let album = new Album(null,null,null,null,null,null);
+        let album = new Album();
         this.disco = new EnviarDisco(album,null);
       },
       error=>{

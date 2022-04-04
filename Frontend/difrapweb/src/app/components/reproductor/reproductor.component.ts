@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Track } from 'src/app/models/track';
 import { AudioContexService } from 'src/app/services/audio-context.service';
 import { AudioService } from 'src/app/services/audio.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-reproductor',
@@ -57,15 +58,20 @@ export class ReproductorComponent implements OnInit {
   }
 
   ngOnDestroy(){
-    this._audioService.setAudio(null); 
+    this._audioService.setAudio(null);
   }
 
-  play(id)
+  play()
   {
-    if(this._audioService.getAudio().src)
+    if(this.idTrack>=0)
 	    this._audioService.toggleAudio();
     else
       this.cambiarTrack(0);
+  }
+
+  stop()
+  {
+    this._audioService.pauseAudio();
   }
 
   siguiente()
@@ -84,11 +90,11 @@ export class ReproductorComponent implements OnInit {
 
   cambiarTrack(track) 
   { 
-    if(track>-1)
+    if(track>-1 && track<this.listaTrack.length)
     {
       this.idTrack=track;
       this.carga=0;
-      this._audioService.setAudio("http://difrap.cl:8080/apiDifRap/track/play/"+this.listaTrack[track].drive);
+      this._audioService.setAudio(environment.apiDifRap+"track/play/"+this.listaTrack[track].drive);
       this.volumen=this._audioService.getAudio().volume;
     }
   }

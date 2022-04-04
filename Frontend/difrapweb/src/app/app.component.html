@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="javascript:void(0)">DifundiendoRap</a>
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" [routerLink]="['']">DifundiendoRap</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -18,7 +18,34 @@
   </div>
 </nav>
 <p></p>
-<router-outlet></router-outlet>
+
+<div style="margin-bottom: 120px">
+  <router-outlet></router-outlet>
+</div>
+
+<nav class="navbar fixed-bottom navbar-expand-lg navbar-dark bg-dark">
+ <span class="navbar-brand mb-0 h1">
+   <app-reproductor  #reproductor [listaTrack]="listaTracks"></app-reproductor>
+ </span>
+
+ <button class="navbar-toggler dropup" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+  <i class="bi bi-three-dots" placement="top" ngbTooltip="Mostrar Tracks"></i>
+ </button>
+
+  <div class="collapse navbar-collapse " id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown dropup ">
+        <a class="nav-link dropdown-toggle" id="listraTrackMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Lista Tracks
+        </a>
+        <div class="dropdown-menu" aria-labelledby="listraTrackMenu">
+          <a class="dropdown-item"*ngFor="let t of listaTracks; let i = index" (click)="reproducir(t,i)">{{t.nombre}}</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+   
 <ngx-spinner 
     bdColor="rgba(0, 0, 0, 0.8)" 
     size="large" 

@@ -1,15 +1,32 @@
 <title>Albumes</title>
-<div class="container">
+<div class="container" *ngIf="album.idIncremental">
 	<div class="panel-body">
 
 		<div class="card text-center">
-			
+			<div class="card-body text-white bg-dark">
+				<h5 class="card-title">{{album.artista}} - {{album.album}} - {{album.anho}}</h5>
+			</div>
 			<div class="card-body">
-				<img src="http://difrap.cl:8080/apiDifRap/track/play/{{album.drive}}" class="card-img-top" style="width: 20rem;" alt="..."><br>
+				<img *ngIf="album.drive" src="{{ambiente.apiDifRap}}track/play/{{album.drive}}" class="card-img-top" style="width: 20rem;" alt="..."><br>
 				<app-reproductor #reproductor [listaTrack]="listaTracks"></app-reproductor>
 			</div>
 			<ul class="list-group list-group-flush">
-			  <li class="list-group-item" *ngFor="let t of listaTracks; let i =index" (click)="play(i)">{{t.nombre}}</li>
+			  <li class="list-group-item" [class.bg-secondary]="reproductor.idTrack == i" *ngFor="let t of listaTracks; let i =index" >
+				<div class="row">
+					  <div class="col-11" (click)="play(i)">
+						<i class="bi bi-volume-up-fill" *ngIf="reproductor.idTrack == i"></i>
+							{{t.nombre}}
+						<i class="bi bi-volume-up-fill" *ngIf="reproductor.idTrack == i"></i>
+					  </div>
+					  <div class="col-1 text-right">
+						<div class="btn-group flex-wrap" role="group">
+							<button type="button" class="btn btn-dark" (click)="agregarAlReproductor(t)" placement="top" ngbTooltip="Agregar al reproductor">
+								<i class="bi bi-plus" (click)="(t)"></i>
+							</button>
+						</div>
+					  </div>
+				</div>
+			  </li>
 			</ul>
 			<div class="card-body">
 				<a href="{{album.link}}" target="_blank">
@@ -17,34 +34,17 @@
 				</a>
 			</div>
 		  </div>
-		<!--div class="table-responsive"> 
-			<div class="table-container" >
-				<table class="table table-striped" >
-					<thead class="thead-dark">
-						<tr>
-                            <th class="text-center">{{album.artista}} - {{album.album}} - {{album.anho}}</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td align="center"><iframe width="560" height="315" [src]="getVideoIframe(album.youtube)" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></td>
-                        </tr>
-                        <tr align="center">
-                            <td>
-                               
-                            </td>
-                        </tr>
-					</tbody>
-				</table>
-            </div>
-            
-		</div-->  
-		<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 actions-container">
-			<input type="button" value="Volver" class="btn btn-secondary" [routerLink]="['..']" [queryParams]="filtro" />
-		</div>
+		  <div class="row">
+			<div class="form-group col-lg-9 col-md-9 col-sm-9 col-xs-9 actions-container">
+				<div class="btn-group flex-wrap" role="group">
+					<input type="button" *ngIf="album.idIncremental>1" value="Album anterior" class="btn btn-primary" [routerLink]="['../',album.idIncremental-1]" [queryParams]="filtro" />
+					<input type="button" value="Album Siguiente" class="btn btn-primary" [routerLink]="['../',album.idIncremental+1]" [queryParams]="filtro" />
+				</div>
+			</div>
+
+			<div  class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-3  actions-container">
+				<input type="button" value="Volver" class="btn btn-secondary" [routerLink]="['..']" [queryParams]="filtro" />
+			</div>
+		  </div>	
 	</div>
 </div>
-
-
-
-

@@ -23,7 +23,7 @@ export class AlbumesComponent implements OnInit {
 
   constructor( private _albumService:AlbumService,
     private _route:ActivatedRoute) {
-    this.album = new Album(null,null,null,null,null,null);
+    this.album = new Album();
     this.cantidadRegistros = null;
     this.listaAlbumes= [];
     this.totalPaginas= [];
@@ -47,7 +47,7 @@ export class AlbumesComponent implements OnInit {
   }
 
   limpiarFiltros(){
-    this.album = new Album(null,null,null,null,null,null);
+    this.album = new Album();
   }
 
   onSubmit()

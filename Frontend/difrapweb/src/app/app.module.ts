@@ -14,6 +14,8 @@ import { HomeComponent } from './components/home/home.component';
 import { InterceptorService } from './services/interceptor-service';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ListarCancionesService } from './services/lista-canciones.service';
 
 @NgModule({
   declarations: [
@@ -32,10 +34,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     HttpClientModule,
     NgxSpinnerModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgbModule
   ],
   providers: [
     {provide:HTTP_INTERCEPTORS, useClass: InterceptorService,multi:true}
+    ,ListarCancionesService
   ],
   bootstrap: [AppComponent]
 })

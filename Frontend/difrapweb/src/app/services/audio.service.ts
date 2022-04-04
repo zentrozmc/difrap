@@ -17,6 +17,12 @@ export class AudioService {
         this.attachListeners();
     }
 
+    deleteAudio()
+    {
+        this.audio.pause();
+        this.audio = new Audio();
+    }
+
     private attachListeners(): void {
         this.audio.addEventListener('timeupdate', this.calculateTime, false);
         this.audio.addEventListener('playing', this.setPlayerStatus, false);
