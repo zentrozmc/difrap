@@ -5,7 +5,7 @@
 
 	<groupId>cl.difrap.apirest</groupId>
 	<artifactId>ApiDifRap</artifactId>
-	<version>0.0.3</version>
+	<version>0.0.4</version>
 	<packaging>war</packaging>
 
 	<name>ApiDifRap</name>
@@ -29,12 +29,6 @@
 			<groupId>cl.difrap.biblioteca</groupId>
 			<artifactId>bibliotecaApiRest</artifactId>
 			<version>0.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
