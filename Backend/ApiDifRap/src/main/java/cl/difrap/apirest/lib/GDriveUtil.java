@@ -110,11 +110,12 @@ public class GDriveUtil
     {
         // Load client secrets.
         InputStream in = GDriveUtil.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        LOG.info("Obteniendo Credenciales de "+CREDENTIALS_FILE_PATH);
         if (in == null) {
             throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
         }
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-
+        LOG.info("Continuamos ahora buscamos el token en  "+TOKENS_DIRECTORY_PATH);
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
